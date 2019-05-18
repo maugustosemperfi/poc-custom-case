@@ -1,3 +1,3 @@
 <div class="case-text-container">
-  <p>{{ caseText?.text }}</p>
+  <p [ngStyle]="{ 'fontSize': caseText.fontSize + 'px' }">{{ caseText?.text }}</p>
 </div>

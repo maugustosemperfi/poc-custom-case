@@ -16,7 +16,7 @@ export class CaseTextEditorComponent implements OnInit {
 
   constructor(private store: Store) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   public get textMaxLength() {
     return CaseTextConstants.CASE_TEXT_MAX_LENGTH;
@@ -26,7 +26,8 @@ export class CaseTextEditorComponent implements OnInit {
     this.store.dispatch(
       new AddCaseText({
         id: this.generateId(),
-        text: CaseTextConstants.CASE_TEXT_DEFAULT_NAME
+        text: CaseTextConstants.CASE_TEXT_DEFAULT_NAME,
+        fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE
       } as CaseText)
     );
   }
@@ -34,6 +35,16 @@ export class CaseTextEditorComponent implements OnInit {
   public textValueChanges(eventInput, caseText: CaseText) {
     caseText.text = eventInput.target.value;
 
+    this.dispatchUpdateAction(caseText);
+  }
+
+  public fontSizeValueChanged(eventInput, caseText: CaseText) {
+    caseText.fontSize = eventInput.target.value;
+
+    this.dispatchUpdateAction(caseText);
+  }
+
+  private dispatchUpdateAction(caseText: CaseText) {
     this.store.dispatch(new UpdateCaseText(caseText));
   }
 

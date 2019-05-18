@@ -1,5 +1,14 @@
-<mat-form-field *ngFor="let caseText of caseTexts$ | async">
-  <mat-label appearance="outline">Text {{ caseText.index }}</mat-label>
-  <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)"/>
-</mat-form-field>
+<div class="case-text-editor-container" fxLayout="row">
+  <ng-container *ngFor="let caseText of caseTexts$ | async">
+    <mat-form-field>
+      <mat-label appearance="outline">Text {{ caseText.index }}</mat-label>
+      <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)" />
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+      <mat-form-field>
+        <input matInput [value]="caseText.fontSize" (input)="fontSizeValueChanged($event, caseText)" />
+      </mat-form-field>
+    </div>
+  </ng-container>
+</div>
 <button mat-raised-button color="primary" (click)="addNewText()">Add Text</button>
