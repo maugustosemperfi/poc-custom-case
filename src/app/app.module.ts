@@ -6,16 +6,9 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { CaseContainerModule } from './modules/case-container/case-container.module';
 
-
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    CoreModule,
-    CaseContainerModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
-  ],
+  imports: [CoreModule, CaseContainerModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent]
 })
