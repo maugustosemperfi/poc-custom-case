@@ -1,6 +1,6 @@
 <div class="app-container">
     <div class="case-container">
-      <div cdkDrag *ngFor="let caseText of caseTexts" cdkDragBoundary=".case-container" style="position: absolute">
+      <div cdkDrag *ngFor="let caseText of caseTexts$ | async" cdkDragBoundary=".case-container" style="position: absolute">
           <app-case-text></app-case-text>
       </div>
     </div>
