@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { CaseContainerComponent } from './modules/case-container/case-container.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '', component: CaseContainerComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

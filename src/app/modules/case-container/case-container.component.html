@@ -1,0 +1,18 @@
+<div class="app-container" fxLayout="row" fxLayoutAlign="center center">
+  <div class="case-container" fxLayout="row" fxLayoutAlign="center center">
+    <div class="phone-container">
+      <div
+        cdkDrag
+        class="draggable-item"
+        *ngFor="let caseText of caseTexts$ | async"
+        cdkDragBoundary=".phone-container"
+        [ngStyle]="{ 'z-index': caseText.index }"
+      >
+        <app-case-text [caseText]="caseText"></app-case-text>
+      </div>
+    </div>
+    <div class="case-editor-container">
+      <app-case-editor></app-case-editor>
+    </div>
+  </div>
+</div>
