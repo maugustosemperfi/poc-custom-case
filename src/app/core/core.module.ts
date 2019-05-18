@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
-import { MaterialModule } from '../material.module';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
+import { NgxsModule } from '@ngxs/store';
 
 @NgModule({
-  imports: [MaterialModule]
+  imports: [
+    NgxsModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsRouterPluginModule.forRoot()
+  ]
 })
 export class CoreModule {}
