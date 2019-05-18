@@ -13,5 +13,9 @@
     max-height: 736px;
     background: #fff;
     position: relative;
+
+    .draggable-item {
+      position: absolute;
+    }
   }
 }
