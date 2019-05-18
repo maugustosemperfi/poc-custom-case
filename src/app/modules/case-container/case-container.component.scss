@@ -1,21 +1,28 @@
 .app-container {
-  display: flex;
-  place-content: center;
-  align-items: center;
   height: 100%;
   width: 100%;
   background-color: black;
 
   .case-container {
-    min-width: 350px;
-    max-width: 350px;
     min-height: 736px;
     max-height: 736px;
-    background: #fff;
-    position: relative;
 
-    .draggable-item {
-      position: absolute;
+    .phone-container {
+      min-height: 736px;
+      min-width: 350px;
+      max-width: 350px;
+      background: #fff;
+      position: relative;
+
+      .draggable-item {
+        position: absolute;
+      }
+    }
+
+    .case-editor-container {
+      min-height: 736px;
+      min-width: 450px;
+      max-width: 450px;
     }
   }
 }

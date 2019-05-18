@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 
 @Component({
@@ -7,11 +7,10 @@ import { CaseText } from 'src/app/shared/models/case-text.model';
   styleUrls: ['./case-text.component.scss']
 })
 export class CaseTextComponent implements OnInit {
-  public caseText =  {} as CaseText;
+  @Input() caseText: CaseText;
 
   constructor() {}
 
   ngOnInit() {
-    this.caseText.text = 'Seu nome';
   }
 }
