@@ -4,6 +4,14 @@
       <div
         cdkDrag
         class="draggable-item"
+        *ngFor="let caseBackground of caseBackgrounds$ | async"
+        [ngStyle]="{ 'z-index': caseBackground.index }"
+      >
+      <img [src]="caseBackground.backgroundImgUrl">
+    </div>
+      <div
+        cdkDrag
+        class="draggable-item"
         *ngFor="let caseText of caseTexts$ | async"
         cdkDragBoundary=".phone-container"
         [ngStyle]="{ 'z-index': caseText.index }"
