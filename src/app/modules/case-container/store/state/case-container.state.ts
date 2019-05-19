@@ -2,7 +2,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CaseComponentIndexConstants } from 'src/app/constants/case-components-index.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseText, DeleteCaseText, OrderCaseText, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, DeleteCaseText, OrderCaseText, UpdateCaseBackground, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   caseBackgrounds: CaseBackground[];
@@ -111,6 +111,23 @@ export class CaseContainerState {
     }
 
     allCaseBackgrounds.push(action.payload);
+
+    context.patchState({
+      caseBackgrounds: allCaseBackgrounds
+    });
+  }
+
+  @Action(UpdateCaseBackground)
+  updateCaseBackground(context: StateContext<CaseContainerStateModel>, action: UpdateCaseBackground) {
+    const allCaseBackgrounds = context.getState().caseBackgrounds;
+
+    allCaseBackgrounds.map(caseBackground => {
+      if (caseBackground.id === action.payload.id) {
+        return action.payload;
+      }
+
+      return caseBackground;
+    });
 
     context.patchState({
       caseBackgrounds: allCaseBackgrounds

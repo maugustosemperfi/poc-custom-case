@@ -1,5 +1,5 @@
 <div class="app-container" fxLayout="row" fxLayoutAlign="center center">
-    <div fxFlex></div>
+  <div fxFlex></div>
   <div class="case-container" fxLayout="row" fxLayoutAlign="center center">
     <div class="phone-container">
       <div
@@ -8,7 +8,10 @@
         *ngFor="let caseBackground of caseBackgrounds$ | async"
         [ngStyle]="{ 'z-index': caseBackground.index }"
       >
-        <img [src]="caseBackground.backgroundImgUrl" />
+        <img
+          [src]="caseBackground.backgroundImgUrl"
+          [ngStyle]="{ width: caseBackground.width + 'px', height: caseBackground.height + 'px' }"
+        />
       </div>
       <div
         cdkDrag
