@@ -1,0 +1,11 @@
+.backgrounds-container {
+  padding-bottom: 16px;
+}
+.card-img {
+  background-size: cover;
+
+  img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}

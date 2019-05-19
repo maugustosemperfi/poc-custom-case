@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { AddCaseBackground } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { AddCaseBackground, DeleteCaseBackground, UpdateCaseBackground } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
 
@@ -10,6 +12,9 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
   styleUrls: ['./case-background-editor.component.scss']
 })
 export class CaseBackgroundEditorComponent implements OnInit {
+  @Select(CaseContainerState.caseBackgrounds)
+  public caseBackgrounds$: Observable<CaseBackground[]>;
+
   backgroundImgPath;
   backgroundImgUrl: string | ArrayBuffer;
 
@@ -32,13 +37,53 @@ export class CaseBackgroundEditorComponent implements OnInit {
     this.backgroundImgPath = files;
     reader.readAsDataURL(files[0]);
     reader.onload = () => {
+      this.loadImage(reader.result);
+    };
+  }
+
+  public widthChanged(eventInput, caseBackground: CaseBackground) {
+    caseBackground.width = eventInput.target.value;
+
+    this.updateCaseBackground(caseBackground);
+  }
+
+  public heightChanged(eventInput, caseBackground: CaseBackground) {
+    caseBackground.height = eventInput.target.value;
+
+    this.updateCaseBackground(caseBackground);
+  }
+
+  public rotateChanged(eventInput, caseBackground: CaseBackground) {
+    caseBackground.rotate = eventInput.target.value;
+
+    this.updateCaseBackground(caseBackground);
+  }
+
+  public deleteCaseBackground(caseBackground: CaseBackground) {
+    this.store.dispatch(new DeleteCaseBackground(caseBackground));
+  }
+
+  private updateCaseBackground(caseBackground: CaseBackground) {
+    this.store.dispatch(new UpdateCaseBackground(caseBackground));
+  }
+
+  private loadImage(result: string | ArrayBuffer) {
+    const image = new Image();
+    image.src = result as string;
+
+    image.onload = () => {
       const caseBackground = {
         id: CaseUtilsFunctions.generateComponentId(),
-        backgroundImgUrl: reader.result
+        backgroundImgUrl: result,
+        width: image.width,
+        height: image.height
       } as CaseBackground;
-      // this.backgroundImgUrl = reader.result;
 
-      this.store.dispatch(new AddCaseBackground(caseBackground));
+      this.addCaseBackground(caseBackground);
     };
+  }
+
+  private addCaseBackground(caseBackground: CaseBackground) {
+    this.store.dispatch(new AddCaseBackground(caseBackground));
   }
 }

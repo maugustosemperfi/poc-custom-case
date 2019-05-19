@@ -1,2 +1,33 @@
+<div class="backgrounds-container">
+  <mat-accordion cdkDropList fxLayout="column">
+    <mat-expansion-panel *ngFor="let caseBackground of caseBackgrounds$ | async; let i = index" cdkDrag>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Background {{ i + 1 }} </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+          <mat-form-field appearance="outline" fxFlex="50">
+            <mat-label>Width</mat-label>
+            <input matInput type="number" [value]="caseBackground.width" (input)="widthChanged($event, caseBackground)" />
+          </mat-form-field>
+          <mat-form-field appearance="outline" fxFlex="50">
+            <mat-label>Height</mat-label>
+            <input matInput type="number" [value]="caseBackground.height" (input)="heightChanged($event, caseBackground)" />
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Rotate</mat-label>
+          <mat-icon matPrefix>rotate_right</mat-icon>
+          <input matInput type="number" [value]="caseBackground.rotate" (input)="rotateChanged($event, caseBackground)" />
+        </mat-form-field>
+      </div>
+      <mat-action-row>
+        <button mat-icon-button color="warn" (click)="deleteCaseBackground(caseBackground)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
 <button mat-raised-button color="primary" (click)="fileInput.click()">Upload image</button>
 <input hidden type="file" accept="image/*" #fileInput (change)="selectedBackgroundFile(fileInput.files)" />

@@ -2,7 +2,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CaseComponentIndexConstants } from 'src/app/constants/case-components-index.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseText, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, UpdateCaseBackground, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   caseBackgrounds: CaseBackground[];
@@ -19,12 +19,12 @@ export interface CaseContainerStateModel {
 export class CaseContainerState {
   @Selector()
   static caseTexts(state: CaseContainerStateModel) {
-    return state.caseTexts;
+    return state.caseTexts.filter(caseText => !caseText.excluded);
   }
 
   @Selector()
   static caseBackgrounds(state: CaseContainerStateModel) {
-    return state.caseBackgrounds;
+    return state.caseBackgrounds.filter(caseBackground => !caseBackground.excluded);
   }
 
   constructor() {}
@@ -63,6 +63,43 @@ export class CaseContainerState {
     });
   }
 
+  @Action(DeleteCaseText)
+  deleteCaseText(context: StateContext<CaseContainerStateModel>, action: DeleteCaseText) {
+    const allCaseTexts = context.getState().caseTexts;
+
+    allCaseTexts.map(caseText => {
+      if (caseText.id === action.payload.id) {
+        caseText.excluded = true;
+      }
+
+      return caseText;
+    });
+
+    context.patchState({
+      caseTexts: allCaseTexts
+    });
+  }
+
+  @Action(OrderCaseText)
+  orderCaseText(context: StateContext<CaseContainerStateModel>, action: OrderCaseText) {
+    const allCaseTexts = context.getState().caseTexts;
+
+    const touchedCaseText = allCaseTexts[action.payload.previousIndex];
+    const touchedCaseTextIndex = touchedCaseText.index;
+
+    const untouchedCaseText = allCaseTexts[action.payload.newIndex];
+
+    touchedCaseText.index = untouchedCaseText.index;
+    untouchedCaseText.index = touchedCaseTextIndex;
+
+    allCaseTexts[action.payload.previousIndex] = untouchedCaseText;
+    allCaseTexts[action.payload.newIndex] = touchedCaseText;
+
+    context.patchState({
+      caseTexts: allCaseTexts
+    });
+  }
+
   @Action(AddCaseBackground)
   addCaseBackground(context: StateContext<CaseContainerStateModel>, action: AddCaseBackground) {
     const allCaseBackgrounds = context.getState().caseBackgrounds;
@@ -74,6 +111,40 @@ export class CaseContainerState {
     }
 
     allCaseBackgrounds.push(action.payload);
+
+    context.patchState({
+      caseBackgrounds: allCaseBackgrounds
+    });
+  }
+
+  @Action(UpdateCaseBackground)
+  updateCaseBackground(context: StateContext<CaseContainerStateModel>, action: UpdateCaseBackground) {
+    const allCaseBackgrounds = context.getState().caseBackgrounds;
+
+    allCaseBackgrounds.map(caseBackground => {
+      if (caseBackground.id === action.payload.id) {
+        return action.payload;
+      }
+
+      return caseBackground;
+    });
+
+    context.patchState({
+      caseBackgrounds: allCaseBackgrounds
+    });
+  }
+
+  @Action(DeleteCaseBackground)
+  deleteCaseBackground(context: StateContext<CaseContainerStateModel>, action: DeleteCaseBackground) {
+    const allCaseBackgrounds = context.getState().caseBackgrounds;
+
+    allCaseBackgrounds.map(caseBackground => {
+      if (caseBackground.id === action.payload.id) {
+        caseBackground.excluded = true;
+      }
+
+      return caseBackground;
+    });
 
     context.patchState({
       caseBackgrounds: allCaseBackgrounds
