@@ -1,4 +1,10 @@
 <div class="case-editor-container">
-  <app-case-text-editor></app-case-text-editor>
-  <app-case-background-editor></app-case-background-editor>
+  <mat-vertical-stepper [linear]="false">
+    <mat-step label="Case Background" state="wallpaper">
+      <app-case-background-editor></app-case-background-editor>
+    </mat-step>
+    <mat-step label="Case text" state="text_fields">
+      <app-case-text-editor></app-case-text-editor>
+    </mat-step>
+  </mat-vertical-stepper>
 </div>
