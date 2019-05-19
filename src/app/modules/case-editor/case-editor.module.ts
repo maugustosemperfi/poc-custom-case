@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +12,7 @@ import { CaseTextEditorComponent } from './components/case-text-editor/case-text
   imports: [
     CommonModule,
     FormsModule,
+    DragDropModule,
     MaterialModule
   ],
   exports: [CaseEditorComponent]

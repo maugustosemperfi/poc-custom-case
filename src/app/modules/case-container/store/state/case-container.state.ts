@@ -2,7 +2,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CaseComponentIndexConstants } from 'src/app/constants/case-components-index.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseText, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, DeleteCaseText, OrderCaseText, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   caseBackgrounds: CaseBackground[];
@@ -19,7 +19,7 @@ export interface CaseContainerStateModel {
 export class CaseContainerState {
   @Selector()
   static caseTexts(state: CaseContainerStateModel) {
-    return state.caseTexts;
+    return state.caseTexts.filter(caseText => !caseText.excluded);
   }
 
   @Selector()
@@ -57,6 +57,45 @@ export class CaseContainerState {
 
       return caseText;
     });
+
+    context.patchState({
+      caseTexts: allCaseTexts
+    });
+  }
+
+  @Action(DeleteCaseText)
+  deleteCaseBackground(context: StateContext<CaseContainerStateModel>, action: DeleteCaseText) {
+    const allCaseTexts = context.getState().caseTexts;
+
+    allCaseTexts.map(caseText => {
+      if (caseText.id === action.payload.id) {
+        caseText.excluded = true;
+      }
+
+      return caseText;
+    });
+
+    context.patchState({
+      caseTexts: allCaseTexts
+    });
+  }
+
+  @Action(OrderCaseText)
+  orderCaseText(context: StateContext<CaseContainerStateModel>, action: OrderCaseText) {
+    const allCaseTexts = context.getState().caseTexts;
+
+    const touchedCaseText = allCaseTexts[action.payload.previousIndex];
+    const touchedCaseTextIndex = touchedCaseText.index;
+
+    const untouchedCaseText = allCaseTexts[action.payload.newIndex];
+
+    touchedCaseText.index = untouchedCaseText.index;
+    untouchedCaseText.index = touchedCaseTextIndex;
+
+    allCaseTexts[action.payload.previousIndex] = untouchedCaseText;
+    allCaseTexts[action.payload.newIndex] = touchedCaseText;
+
+    console.log(allCaseTexts);
 
     context.patchState({
       caseTexts: allCaseTexts

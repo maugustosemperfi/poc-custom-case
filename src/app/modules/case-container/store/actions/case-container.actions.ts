@@ -11,6 +11,16 @@ export class UpdateCaseText {
   constructor(public readonly payload: CaseText) {}
 }
 
+export class DeleteCaseText {
+  static readonly type = '[Case Editor Container] Delete Case Text';
+  constructor(public readonly payload: CaseText) {}
+}
+
+export class OrderCaseText {
+  static readonly type = '[Case Editor Container] Ordering Case Text';
+  constructor(public readonly payload: { previousIndex: number; newIndex: number }) {}
+}
+
 export class AddCaseBackground {
   static readonly type = '[Case Editor Background] Add Case Background';
   constructor(public readonly payload: CaseBackground) {}

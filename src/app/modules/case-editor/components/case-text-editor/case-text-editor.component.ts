@@ -1,8 +1,9 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { CaseTextConstants } from 'src/app/constants/case-text.constants';
-import { AddCaseText, UpdateCaseText } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import { AddCaseText, DeleteCaseText, OrderCaseText, UpdateCaseText } from 'src/app/modules/case-container/store/actions/case-container.actions';
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 
@@ -42,6 +43,14 @@ export class CaseTextEditorComponent implements OnInit {
     caseText.fontSize = eventInput.target.value;
 
     this.dispatchUpdateAction(caseText);
+  }
+
+  public deleteText(caseText: CaseText) {
+    this.store.dispatch(new DeleteCaseText(caseText));
+  }
+
+  public drop(event: CdkDragDrop<CaseText[]>) {
+    this.store.dispatch(new OrderCaseText({ previousIndex: event.previousIndex, newIndex: event.currentIndex }));
   }
 
   private dispatchUpdateAction(caseText: CaseText) {
