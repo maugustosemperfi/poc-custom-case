@@ -95,8 +95,6 @@ export class CaseContainerState {
     allCaseTexts[action.payload.previousIndex] = untouchedCaseText;
     allCaseTexts[action.payload.newIndex] = touchedCaseText;
 
-    console.log(allCaseTexts);
-
     context.patchState({
       caseTexts: allCaseTexts
     });

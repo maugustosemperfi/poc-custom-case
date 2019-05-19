@@ -47,4 +47,8 @@ export class CaseBackgroundEditorComponent implements OnInit {
       this.store.dispatch(new AddCaseBackground(caseBackground));
     };
   }
+
+  public deleteCaseBackground(caseBackground: CaseBackground) {
+
+  }
 }
