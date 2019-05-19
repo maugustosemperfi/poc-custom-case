@@ -1,2 +1,10 @@
+<div fxLayout="column" fxLayout="start center">
+  <mat-card *ngFor="let caseBackground of caseBackgrounds$ | async; let i = index">
+    <mat-card-header>
+      <div mat-card-avatar class="card-img"><img [src]="caseBackground.backgroundImgUrl" /></div>
+      <mat-card-title>Background {{ i + 1 }}</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+</div>
 <button mat-raised-button color="primary" (click)="fileInput.click()">Upload image</button>
 <input hidden type="file" accept="image/*" #fileInput (change)="selectedBackgroundFile(fileInput.files)" />

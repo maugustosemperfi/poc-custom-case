@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { AddCaseBackground } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
 
@@ -10,6 +12,10 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
   styleUrls: ['./case-background-editor.component.scss']
 })
 export class CaseBackgroundEditorComponent implements OnInit {
+
+  @Select(CaseContainerState.caseBackgrounds)
+  public caseBackgrounds$: Observable<CaseBackground[]>;
+
   backgroundImgPath;
   backgroundImgUrl: string | ArrayBuffer;
 
