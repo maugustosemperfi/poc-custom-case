@@ -22,6 +22,11 @@ export class CaseContainerState {
     return state.caseTexts;
   }
 
+  @Selector()
+  static caseBackgrounds(state: CaseContainerStateModel) {
+    return state.caseBackgrounds;
+  }
+
   constructor() {}
 
   @Action(AddCaseText)
