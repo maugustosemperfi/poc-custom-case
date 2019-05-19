@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AddCaseBackground, UpdateCaseBackground } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import { AddCaseBackground, DeleteCaseBackground, UpdateCaseBackground } from 'src/app/modules/case-container/store/actions/case-container.actions';
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
@@ -53,6 +53,16 @@ export class CaseBackgroundEditorComponent implements OnInit {
     this.updateCaseBackground(caseBackground);
   }
 
+  public rotateChanged(eventInput, caseBackground: CaseBackground) {
+    caseBackground.rotate = eventInput.target.value;
+
+    this.updateCaseBackground(caseBackground);
+  }
+
+  public deleteCaseBackground(caseBackground: CaseBackground) {
+    this.store.dispatch(new DeleteCaseBackground(caseBackground));
+  }
+
   private updateCaseBackground(caseBackground: CaseBackground) {
     this.store.dispatch(new UpdateCaseBackground(caseBackground));
   }
@@ -76,6 +86,4 @@ export class CaseBackgroundEditorComponent implements OnInit {
   private addCaseBackground(caseBackground: CaseBackground) {
     this.store.dispatch(new AddCaseBackground(caseBackground));
   }
-
-  public deleteCaseBackground(caseBackground: CaseBackground) {}
 }

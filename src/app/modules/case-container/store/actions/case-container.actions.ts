@@ -30,3 +30,8 @@ export class UpdateCaseBackground {
   static readonly type = '[Case Editor Background] Update Case Background';
   constructor(public readonly payload: CaseBackground) {}
 }
+
+export class DeleteCaseBackground {
+  static readonly type = '[Case Editor Background] Delete Case Background';
+  constructor(public readonly payload: CaseBackground) {}
+}

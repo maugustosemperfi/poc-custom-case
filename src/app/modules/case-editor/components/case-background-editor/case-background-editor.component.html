@@ -4,17 +4,22 @@
       <mat-expansion-panel-header>
         <mat-panel-title> Background {{ i + 1 }} </mat-panel-title>
       </mat-expansion-panel-header>
-      <div>
+      <div fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
           <mat-form-field appearance="outline" fxFlex="50">
             <mat-label>Width</mat-label>
-            <input matInput [value]="caseBackground.width" (input)="widthChanged($event, caseBackground)" />
+            <input matInput type="number" [value]="caseBackground.width" (input)="widthChanged($event, caseBackground)" />
           </mat-form-field>
           <mat-form-field appearance="outline" fxFlex="50">
             <mat-label>Height</mat-label>
-            <input matInput [value]="caseBackground.height" (input)="heightChanged($event, caseBackground)" />
+            <input matInput type="number" [value]="caseBackground.height" (input)="heightChanged($event, caseBackground)" />
           </mat-form-field>
         </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Rotate</mat-label>
+          <mat-icon matPrefix>rotate_right</mat-icon>
+          <input matInput type="number" [value]="caseBackground.rotate" (input)="rotateChanged($event, caseBackground)" />
+        </mat-form-field>
       </div>
       <mat-action-row>
         <button mat-icon-button color="warn" (click)="deleteCaseBackground(caseBackground)">

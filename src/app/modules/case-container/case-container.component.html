@@ -10,7 +10,11 @@
       >
         <img
           [src]="caseBackground.backgroundImgUrl"
-          [ngStyle]="{ width: caseBackground.width + 'px', height: caseBackground.height + 'px' }"
+          [ngStyle]="{
+            width: caseBackground.width + 'px',
+            height: caseBackground.height + 'px',
+            transform: 'rotate(' + caseBackground.rotate + 'deg)'
+          }"
         />
       </div>
       <div

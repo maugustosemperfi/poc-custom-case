@@ -2,7 +2,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CaseComponentIndexConstants } from 'src/app/constants/case-components-index.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseText, DeleteCaseText, OrderCaseText, UpdateCaseBackground, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, UpdateCaseBackground, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   caseBackgrounds: CaseBackground[];
@@ -24,7 +24,7 @@ export class CaseContainerState {
 
   @Selector()
   static caseBackgrounds(state: CaseContainerStateModel) {
-    return state.caseBackgrounds;
+    return state.caseBackgrounds.filter(caseBackground => !caseBackground.excluded);
   }
 
   constructor() {}
@@ -64,7 +64,7 @@ export class CaseContainerState {
   }
 
   @Action(DeleteCaseText)
-  deleteCaseBackground(context: StateContext<CaseContainerStateModel>, action: DeleteCaseText) {
+  deleteCaseText(context: StateContext<CaseContainerStateModel>, action: DeleteCaseText) {
     const allCaseTexts = context.getState().caseTexts;
 
     allCaseTexts.map(caseText => {
@@ -124,6 +124,23 @@ export class CaseContainerState {
     allCaseBackgrounds.map(caseBackground => {
       if (caseBackground.id === action.payload.id) {
         return action.payload;
+      }
+
+      return caseBackground;
+    });
+
+    context.patchState({
+      caseBackgrounds: allCaseBackgrounds
+    });
+  }
+
+  @Action(DeleteCaseBackground)
+  deleteCaseBackground(context: StateContext<CaseContainerStateModel>, action: DeleteCaseBackground) {
+    const allCaseBackgrounds = context.getState().caseBackgrounds;
+
+    allCaseBackgrounds.map(caseBackground => {
+      if (caseBackground.id === action.payload.id) {
+        caseBackground.excluded = true;
       }
 
       return caseBackground;
