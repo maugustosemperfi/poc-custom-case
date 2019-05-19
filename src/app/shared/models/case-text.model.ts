@@ -1,6 +1,7 @@
-export interface CaseText {
+import { CaseComponent } from './case-compoent.model';
+
+export interface CaseText extends CaseComponent {
   id: string;
   text: string;
-  index: number;
   fontSize: number;
 }

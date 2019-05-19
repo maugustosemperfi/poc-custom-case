@@ -1,3 +1,2 @@
 <button mat-raised-button color="primary" (click)="fileInput.click()">Upload image</button>
 <input hidden type="file" accept="image/*" #fileInput (change)="selectedBackgroundFile(fileInput.files)" />
-<img [src]="backgroundImgUrl" />
