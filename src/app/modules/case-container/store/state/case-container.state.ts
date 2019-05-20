@@ -1,10 +1,12 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CaseComponentIndexConstants } from 'src/app/constants/case-components-index.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
+import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, UpdateCaseBackground, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
+  casePalette: CasePalette;
   caseBackgrounds: CaseBackground[];
   caseTexts: CaseText[];
 }
@@ -12,6 +14,10 @@ export interface CaseContainerStateModel {
 @State<CaseContainerStateModel>({
   name: 'caseContainer',
   defaults: {
+    casePalette: {
+      color: null,
+      opacity: 1
+    },
     caseBackgrounds: [],
     caseTexts: []
   }
@@ -25,6 +31,16 @@ export class CaseContainerState {
   @Selector()
   static caseBackgrounds(state: CaseContainerStateModel) {
     return state.caseBackgrounds.filter(caseBackground => !caseBackground.excluded);
+  }
+
+  @Selector()
+  static caseColor(state: CaseContainerStateModel) {
+    return state.casePalette.color;
+  }
+
+  @Selector()
+  static casePalette(state: CaseContainerStateModel) {
+    return state.casePalette;
   }
 
   constructor() {}
@@ -148,6 +164,23 @@ export class CaseContainerState {
 
     context.patchState({
       caseBackgrounds: allCaseBackgrounds
+    });
+  }
+
+  @Action(UpdateCasePalette)
+  updateCasePalette(context: StateContext<CaseContainerStateModel>, action: UpdateCasePalette) {
+    context.patchState({
+      casePalette: action.payload
+    });
+  }
+
+  @Action(UpdateCaseColor)
+  updateCaseColor(context: StateContext<CaseContainerStateModel>, action: UpdateCaseColor) {
+    const casePalette = context.getState().casePalette;
+
+    casePalette.color = action.payload;
+    context.patchState({
+      casePalette
     });
   }
 }

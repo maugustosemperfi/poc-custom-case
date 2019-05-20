@@ -1,4 +1,5 @@
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
+import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 
 export class AddCaseText {
@@ -34,4 +35,14 @@ export class UpdateCaseBackground {
 export class DeleteCaseBackground {
   static readonly type = '[Case Editor Background] Delete Case Background';
   constructor(public readonly payload: CaseBackground) {}
+}
+
+export class UpdateCasePalette {
+  static readonly type = '[Case Editor Palette] Update Case Palette';
+  constructor(public readonly payload: CasePalette) {}
+}
+
+export class UpdateCaseColor {
+  static readonly type = '[Case Editor Palette] Update Case Color';
+  constructor(public readonly payload: string) {}
 }
