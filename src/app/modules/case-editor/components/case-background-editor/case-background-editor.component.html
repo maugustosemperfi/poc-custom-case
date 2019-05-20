@@ -1,6 +1,10 @@
 <div class="backgrounds-container">
   <mat-accordion cdkDropList fxLayout="column">
-    <mat-expansion-panel *ngFor="let caseBackground of caseBackgrounds$ | async; let i = index" cdkDrag>
+    <mat-expansion-panel
+      *ngFor="let caseBackground of caseBackgrounds$ | async; let i = index"
+      cdkDrag
+      [expanded]="selectedComponent?.id === caseBackground.id"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title> Background {{ i + 1 }} </mat-panel-title>
       </mat-expansion-panel-header>

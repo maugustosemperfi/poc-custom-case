@@ -15,6 +15,7 @@
             height: caseBackground.height + 'px',
             transform: 'rotate(' + caseBackground.rotate + 'deg)'
           }"
+          (click)="selectCaseBackground(caseBackground)"
         />
       </div>
       <div
@@ -23,6 +24,7 @@
         *ngFor="let caseText of caseTexts$ | async"
         cdkDragBoundary=".phone-container"
         [ngStyle]="{ 'z-index': caseText.index }"
+        (click)="selectCaseText(caseText)"
       >
         <app-case-text [caseText]="caseText"></app-case-text>
       </div>

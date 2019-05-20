@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatStepper } from '@angular/material';
+import { Store } from '@ngxs/store';
+import { CaseContainerState } from '../case-container/store/state/case-container.state';
 
 @Component({
   selector: 'app-case-editor',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CaseEditorComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('stepper') matStepper: MatStepper;
+
+  constructor(private store: Store) { }
 
   ngOnInit() {
+    this.store.select(CaseContainerState.indexStepper).subscribe(index => {
+      if (index) {
+        this.matStepper.selectedIndex = index;
+      }
+    });
   }
 
 }

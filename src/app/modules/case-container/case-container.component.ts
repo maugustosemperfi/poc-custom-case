@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
-import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { UpdateCaseColor } from './store/actions/case-container.actions';
+import { CasePalette } from '../../shared/models/case-palette.model';
+import { SelectCaseBackground, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
 
 @Component({
@@ -24,6 +24,14 @@ export class CaseContainerComponent implements OnInit {
   ngOnInit() {
     this.setInitialCaseColor();
     this.store.select(CaseContainerState.casePalette).subscribe(casePalette => (this.casePalette = casePalette));
+  }
+
+  public selectCaseText(caseText: CaseText) {
+    this.store.dispatch(new SelectCaseText(caseText));
+  }
+
+  public selectCaseBackground(caseBackground: CaseBackground) {
+    this.store.dispatch(new SelectCaseBackground(caseBackground));
   }
 
   private setInitialCaseColor() {

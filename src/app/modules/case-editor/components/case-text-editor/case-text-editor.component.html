@@ -1,27 +1,25 @@
 <div class="case-text-editor-container" fxLayout="row">
-  <div>
-    <mat-accordion cdkDropList (cdkDropListDropped)="drop($event)">
-      <mat-expansion-panel *ngFor="let caseText of caseTexts$ | async" cdkDrag>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ caseText.text }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+  <mat-accordion cdkDropList (cdkDropListDropped)="drop($event)" fxFlex="100">
+    <mat-expansion-panel *ngFor="let caseText of caseTexts$ | async" cdkDrag [expanded]="selectedComponent?.id === caseText.id" >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ caseText.text }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field>
+        <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)" />
+      </mat-form-field>
+      <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
         <mat-form-field>
-          <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)" />
+          <input matInput [value]="caseText.fontSize" (input)="fontSizeValueChanged($event, caseText)" />
         </mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
-          <mat-form-field>
-            <input matInput [value]="caseText.fontSize" (input)="fontSizeValueChanged($event, caseText)" />
-          </mat-form-field>
-        </div>
-        <mat-action-row>
-          <button mat-icon-button color="warn" (click)="deleteText(caseText)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-action-row>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+      </div>
+      <mat-action-row>
+        <button mat-icon-button color="warn" (click)="deleteText(caseText)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
 <button mat-raised-button color="primary" (click)="addNewText()">Add Text</button>

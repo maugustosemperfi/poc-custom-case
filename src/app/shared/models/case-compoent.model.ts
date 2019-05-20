@@ -3,4 +3,5 @@ export interface CaseComponent {
   index: number;
   rotate: number;
   excluded: boolean;
+  selected: boolean;
 }
