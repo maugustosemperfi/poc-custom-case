@@ -1,7 +1,7 @@
 <div class="app-container" fxLayout="row" fxLayoutAlign="center center">
   <div fxFlex></div>
   <div class="case-container" fxLayout="row" fxLayoutAlign="center center">
-    <div class="phone-container">
+    <div class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ', 1)', opacity: casePalette.opacity }">
       <div
         cdkDrag
         class="draggable-item"

@@ -8,7 +8,7 @@ import { CaseContainerModule } from './modules/case-container/case-container.mod
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [CoreModule, CaseContainerModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+  imports: [BrowserAnimationsModule, BrowserModule, CoreModule, CaseContainerModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]
 })
