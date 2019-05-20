@@ -1,5 +1,5 @@
 <div class="case-editor-container">
-  <mat-vertical-stepper [linear]="false">
+  <mat-vertical-stepper #stepper [linear]="false">
     <mat-step label="Case Color" state="palette">
       <app-case-palette-editor></app-case-palette-editor>
     </mat-step>

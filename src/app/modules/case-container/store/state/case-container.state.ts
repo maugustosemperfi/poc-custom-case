@@ -1,14 +1,17 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CaseComponentIndexConstants } from 'src/app/constants/case-components-index.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
+import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, SelectCaseBackground, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   casePalette: CasePalette;
   caseBackgrounds: CaseBackground[];
   caseTexts: CaseText[];
+  caseComponentSelected: CaseComponent;
+  indexStepper: number;
 }
 
 @State<CaseContainerStateModel>({
@@ -19,7 +22,9 @@ export interface CaseContainerStateModel {
       opacity: 1
     },
     caseBackgrounds: [],
-    caseTexts: []
+    caseTexts: [],
+    caseComponentSelected: null,
+    indexStepper: null
   }
 })
 export class CaseContainerState {
@@ -41,6 +46,16 @@ export class CaseContainerState {
   @Selector()
   static casePalette(state: CaseContainerStateModel) {
     return state.casePalette;
+  }
+
+  @Selector()
+  static selectedCaseComponent(state: CaseContainerStateModel) {
+    return state.caseComponentSelected;
+  }
+
+  @Selector()
+  static indexStepper(state: CaseContainerStateModel) {
+    return state.indexStepper;
   }
 
   constructor() {}
@@ -181,6 +196,22 @@ export class CaseContainerState {
     casePalette.color = action.payload;
     context.patchState({
       casePalette
+    });
+  }
+
+  @Action(SelectCaseText)
+  selectCaseText(context: StateContext<CaseContainerStateModel>, action: SelectCaseText) {
+    context.patchState({
+      caseComponentSelected: action.payload,
+      indexStepper: CaseComponentIndexConstants.CASE_TEXT_STEPPER_INDEX
+    });
+  }
+
+  @Action(SelectCaseBackground)
+  selectCaseBackground(context: StateContext<CaseContainerStateModel>, action: SelectCaseBackground) {
+    context.patchState({
+      caseComponentSelected: action.payload,
+      indexStepper: CaseComponentIndexConstants.CASE_BACKGROUND_STEPPER_INDEX
     });
   }
 }

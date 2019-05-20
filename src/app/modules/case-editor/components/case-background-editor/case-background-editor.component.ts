@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AddCaseBackground, DeleteCaseBackground, UpdateCaseBackground } from 'src/app/modules/case-container/store/actions/case-container.actions';
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
+import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
 
 @Component({
@@ -14,13 +15,18 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
 export class CaseBackgroundEditorComponent implements OnInit {
   @Select(CaseContainerState.caseBackgrounds)
   public caseBackgrounds$: Observable<CaseBackground[]>;
+  public selectedComponent: CaseComponent;
 
   backgroundImgPath;
   backgroundImgUrl: string | ArrayBuffer;
 
   constructor(private store: Store) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.select(CaseContainerState.selectedCaseComponent).subscribe(selectedComponent => {
+      this.selectedComponent = selectedComponent;
+    });
+  }
 
   public selectedBackgroundFile(files) {
     if (files.length === 0) {

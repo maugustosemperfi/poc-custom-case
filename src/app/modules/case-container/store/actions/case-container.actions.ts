@@ -46,3 +46,13 @@ export class UpdateCaseColor {
   static readonly type = '[Case Editor Palette] Update Case Color';
   constructor(public readonly payload: string) {}
 }
+
+export class SelectCaseText {
+  static readonly type = '[Case Container] Select Case Text';
+  constructor(public readonly payload: CaseText) {}
+}
+
+export class SelectCaseBackground {
+  static readonly type = '[Case Background] Select Case Background';
+  constructor(public readonly payload: CaseBackground) {}
+}
