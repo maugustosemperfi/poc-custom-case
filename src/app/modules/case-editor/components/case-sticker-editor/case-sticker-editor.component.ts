@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseStickerConstants } from 'src/app/constants/case-sticker.constants';
+import { Store } from '@ngxs/store';
+import { AddCaseSticker } from 'src/app/modules/case-container/store/actions/case-container.actions';
 
 @Component({
   selector: 'app-case-sticker-editor',
@@ -10,9 +12,13 @@ import { CaseStickerConstants } from 'src/app/constants/case-sticker.constants';
 export class CaseStickerEditorComponent implements OnInit {
   public appStickers: CaseSticker[];
 
-  constructor() {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
     this.appStickers = CaseStickerConstants.stickers;
+  }
+
+  public addCaseSticker(caseSticker: CaseSticker) {
+    this.store.dispatch(new AddCaseSticker(caseSticker));
   }
 }

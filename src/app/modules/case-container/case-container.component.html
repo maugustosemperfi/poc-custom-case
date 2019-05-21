@@ -20,6 +20,16 @@
       </div>
       <div
         cdkDrag
+        cdkDragBoundary=".phone-container"
+        class="draggable-item"
+        *ngFor="let caseSticker of caseStickers$ | async"
+        [ngStyle]="{ 'z-index': caseSticker.index }"
+        (click)="selectCaseSticker(caseSticker)"
+      >
+        <img [src]="caseSticker.path" [ngStyle]="{ height: '100px' }" />
+      </div>
+      <div
+        cdkDrag
         class="draggable-item"
         *ngFor="let caseText of caseTexts$ | async"
         cdkDragBoundary=".phone-container"

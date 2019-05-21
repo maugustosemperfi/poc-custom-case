@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 import { CasePalette } from '../../shared/models/case-palette.model';
-import { SelectCaseBackground, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
+import { SelectCaseBackground, SelectCaseText, UpdateCaseColor, SelectCaseSticker } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
+import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 
 @Component({
   selector: 'app-case-container',
@@ -16,6 +17,7 @@ import { CaseContainerState } from './store/state/case-container.state';
 export class CaseContainerComponent implements OnInit {
   @Select(CaseContainerState.caseTexts) caseTexts$: Observable<CaseText[]>;
   @Select(CaseContainerState.caseBackgrounds) caseBackgrounds$: Observable<CaseBackground[]>;
+  @Select(CaseContainerState.caseStickers) caseStickers$: Observable<CaseSticker[]>;
 
   public casePalette: CasePalette;
 
@@ -32,6 +34,10 @@ export class CaseContainerComponent implements OnInit {
 
   public selectCaseBackground(caseBackground: CaseBackground) {
     this.store.dispatch(new SelectCaseBackground(caseBackground));
+  }
+
+  public selectCaseSticker(caseSticker: CaseSticker) {
+    this.store.dispatch(new SelectCaseSticker(caseSticker));
   }
 
   private setInitialCaseColor() {

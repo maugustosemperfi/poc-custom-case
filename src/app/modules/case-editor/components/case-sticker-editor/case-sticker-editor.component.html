@@ -1,5 +1,12 @@
 <div fxLayout="row wrap" fxLayoutGap="8px">
-  <div *ngFor="let caseSticker of appStickers" class="sticker" fxFlex="25" fxLayout="row" fxLayoutAlign="center center">
+  <div
+    *ngFor="let caseSticker of appStickers"
+    class="sticker"
+    fxFlex="25"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    (click)="addCaseSticker(caseSticker)"
+  >
     <img [src]="caseSticker.path" />
   </div>
 </div>

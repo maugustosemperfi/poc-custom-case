@@ -3,13 +3,29 @@ import { CaseComponentIndexConstants } from 'src/app/constants/case-components-i
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
+import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, SelectCaseBackground, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseText } from '../actions/case-container.actions';
+import {
+  AddCaseBackground,
+  AddCaseSticker,
+  AddCaseText,
+  DeleteCaseBackground,
+  DeleteCaseText,
+  OrderCaseText,
+  SelectCaseBackground,
+  SelectCaseText,
+  UpdateCaseBackground,
+  UpdateCaseColor,
+  UpdateCasePalette,
+  UpdateCaseText,
+  SelectCaseSticker
+} from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   casePalette: CasePalette;
   caseBackgrounds: CaseBackground[];
   caseTexts: CaseText[];
+  caseStickers: CaseSticker[];
   caseComponentSelected: CaseComponent;
   indexStepper: number;
 }
@@ -23,6 +39,7 @@ export interface CaseContainerStateModel {
     },
     caseBackgrounds: [],
     caseTexts: [],
+    caseStickers: [],
     caseComponentSelected: null,
     indexStepper: null
   }
@@ -56,6 +73,11 @@ export class CaseContainerState {
   @Selector()
   static indexStepper(state: CaseContainerStateModel) {
     return state.indexStepper;
+  }
+
+  @Selector()
+  static caseStickers(state: CaseContainerStateModel) {
+    return state.caseStickers;
   }
 
   constructor() {}
@@ -212,6 +234,31 @@ export class CaseContainerState {
     context.patchState({
       caseComponentSelected: action.payload,
       indexStepper: CaseComponentIndexConstants.CASE_BACKGROUND_STEPPER_INDEX
+    });
+  }
+
+  @Action(SelectCaseSticker)
+  SelectCaseSticker(context: StateContext<CaseContainerStateModel>, action: SelectCaseSticker) {
+    context.patchState({
+      caseComponentSelected: action.payload,
+      indexStepper: CaseComponentIndexConstants.CASE_STICKER_STEPPER_INDEX
+    });
+  }
+
+  @Action(AddCaseSticker)
+  addCaseSticker(context: StateContext<CaseContainerStateModel>, action: AddCaseSticker) {
+    const allCaseStickers = context.getState().caseStickers;
+
+    if (allCaseStickers.length === 0) {
+      action.payload.index = CaseComponentIndexConstants.INDEX_STICKER_MIN;
+    } else {
+      action.payload.index = allCaseStickers.length + CaseComponentIndexConstants.INDEX_STICKER_MIN;
+    }
+
+    allCaseStickers.push(action.payload);
+
+    context.patchState({
+      caseStickers: allCaseStickers
     });
   }
 }
