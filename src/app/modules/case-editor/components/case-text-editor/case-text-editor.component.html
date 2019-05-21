@@ -9,7 +9,7 @@
       <mat-form-field>
         <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)" />
       </mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+      <div fxLayout="row" fxLayoutAlign="start">
         <mat-form-field>
           <input matInput [value]="caseText.fontSize" (input)="fontSizeValueChanged($event, caseText)" />
         </mat-form-field>
