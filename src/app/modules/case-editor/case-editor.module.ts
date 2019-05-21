@@ -8,9 +8,10 @@ import { CaseEditorComponent } from './case-editor.component';
 import { CaseBackgroundEditorComponent } from './components/case-background-editor/case-background-editor.component';
 import { CasePaletteEditorComponent } from './components/case-palette-editor/case-palette-editor.component';
 import { CaseTextEditorComponent } from './components/case-text-editor/case-text-editor.component';
+import { CaseStickerEditorComponent } from './components/case-sticker-editor/case-sticker-editor.component';
 
 @NgModule({
-  declarations: [CaseEditorComponent, CaseTextEditorComponent, CaseBackgroundEditorComponent, CasePaletteEditorComponent],
+  declarations: [CaseEditorComponent, CaseTextEditorComponent, CaseBackgroundEditorComponent, CasePaletteEditorComponent, CaseStickerEditorComponent],
   imports: [CommonModule, FormsModule, FlexLayoutModule, DragDropModule, MaterialModule],
   exports: [CaseEditorComponent]
 })
