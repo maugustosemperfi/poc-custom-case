@@ -5,21 +5,7 @@ import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import {
-  AddCaseBackground,
-  AddCaseSticker,
-  AddCaseText,
-  DeleteCaseBackground,
-  DeleteCaseText,
-  OrderCaseText,
-  SelectCaseBackground,
-  SelectCaseText,
-  UpdateCaseBackground,
-  UpdateCaseColor,
-  UpdateCasePalette,
-  UpdateCaseText,
-  SelectCaseSticker
-} from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseSticker, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseSticker, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   casePalette: CasePalette;
@@ -259,6 +245,19 @@ export class CaseContainerState {
 
     context.patchState({
       caseStickers: allCaseStickers
+    });
+  }
+
+  @Action(UpdateCaseSticker)
+  updateCaseSticker(context: StateContext<CaseContainerStateModel>, action: UpdateCaseSticker) {
+    const allCaseStickers = context.getState().caseStickers;
+
+    allCaseStickers.map(caseSticker => {
+      if (caseSticker.id === action.payload.id) {
+        return action.payload;
+      }
+
+      return caseSticker;
     });
   }
 }

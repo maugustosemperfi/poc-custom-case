@@ -1,6 +1,6 @@
 <div class="case-text-editor-container" fxLayout="row">
   <mat-accordion cdkDropList (cdkDropListDropped)="drop($event)" fxFlex="100">
-    <mat-expansion-panel *ngFor="let caseText of caseTexts$ | async" cdkDrag [expanded]="selectedComponent?.id === caseText.id" >
+    <mat-expansion-panel *ngFor="let caseText of caseTexts$ | async" [expanded]="selectedComponent?.id === caseText.id" >
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{ caseText.text }}
