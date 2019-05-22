@@ -9,8 +9,16 @@
       <mat-form-field>
         <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)" />
       </mat-form-field>
-      <div fxLayout="row" fxLayoutAlign="start">
-        <mat-form-field>
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <mat-form-field appearance="outline" fxFlex="100">
+          <mat-label>Text font</mat-label>
+          <mat-select [value]="caseText.font" (selectionChange)="fontValueChanged($event, caseText)">
+            <mat-option *ngFor="let font of fonts" [value]="font.font">
+              <span [ngStyle]="{ 'font-family': font.font }">{{ font.labelFont }}</span>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" fxFlex="100">
           <mat-label>Font size</mat-label>
           <mat-select [value]="caseText.fontSize" (selectionChange)="fontSizeValueChanged($event, caseText)">
             <mat-option *ngFor="let fontSize of fontSizes" [value]="fontSize.size">

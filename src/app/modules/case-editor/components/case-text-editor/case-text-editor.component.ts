@@ -8,6 +8,7 @@ import { CaseContainerState } from 'src/app/modules/case-container/store/state/c
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CaseTextSize } from 'src/app/shared/models/case-text-size.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
+import { CaseTextFont } from 'src/app/shared/models/csae-text-font.model';
 
 @Component({
   selector: 'app-case-text-editor',
@@ -18,11 +19,13 @@ export class CaseTextEditorComponent implements OnInit {
   @Select(CaseContainerState.caseTexts) public caseTexts$: Observable<CaseText[]>;
   public selectedComponent: CaseComponent;
   public fontSizes: CaseTextSize[];
+  public fonts: CaseTextFont[];
 
   constructor(private store: Store) {}
 
   ngOnInit() {
     this.fontSizes = CaseTextConstants.CASE_TEXT_SIZES;
+    this.fonts = CaseTextConstants.CASE_TEXT_FONTS;
     this.store.select(CaseContainerState.selectedCaseComponent).subscribe(selectedComponent => {
       this.selectedComponent = selectedComponent;
     });
@@ -66,6 +69,12 @@ export class CaseTextEditorComponent implements OnInit {
     caseText.rotate = eventInput.target.value;
 
     this.store.dispatch(new UpdateCaseText(caseText));
+  }
+
+  public fontValueChanged(eventInput, caseText: CaseText) {
+    caseText.font = eventInput.value;
+
+    this.dispatchUpdateAction(caseText);
   }
 
   private dispatchUpdateAction(caseText: CaseText) {
