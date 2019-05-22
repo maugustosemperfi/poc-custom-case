@@ -72,3 +72,8 @@ export class UpdateCaseSticker {
   static readonly type = '[Case Editor Sticker] Update Case Sticker';
   constructor(public readonly payload: CaseSticker) {}
 }
+
+export class DeleteCaseSticker {
+  static readonly type = '[Case Editor Sticker] Delete Case Sticker';
+  constructor(public readonly payload: CaseSticker) {}
+}

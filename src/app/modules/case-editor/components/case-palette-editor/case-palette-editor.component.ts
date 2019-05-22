@@ -24,7 +24,8 @@ export class CasePaletteEditorComponent implements OnInit {
     '106, 46, 53',
     '195, 201, 233',
     '142, 108, 136',
-    '195, 141, 148'
+    '195, 141, 148',
+    '78, 47, 47'
   ];
 
   constructor(private store: Store) {}

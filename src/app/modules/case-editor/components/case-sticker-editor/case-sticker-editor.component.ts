@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { CaseStickerConstants } from 'src/app/constants/case-sticker.constants';
-import { AddCaseSticker, UpdateCaseSticker } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import { AddCaseSticker, DeleteCaseSticker, UpdateCaseSticker } from 'src/app/modules/case-container/store/actions/case-container.actions';
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
@@ -48,6 +48,10 @@ export class CaseStickerEditorComponent implements OnInit {
     caseSticker.height = eventInput.target.value;
 
     this.updateCaseSticker(caseSticker);
+  }
+
+  public deleteCaseSticker(caseSticker: CaseSticker) {
+    this.store.dispatch(new DeleteCaseSticker(caseSticker));
   }
 
   private updateCaseSticker(caseSticker: CaseSticker) {

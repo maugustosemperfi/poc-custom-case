@@ -5,7 +5,7 @@ import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseSticker, AddCaseText, DeleteCaseBackground, DeleteCaseText, OrderCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseSticker, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseSticker, AddCaseText, DeleteCaseBackground, DeleteCaseSticker, DeleteCaseText, OrderCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseSticker, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   casePalette: CasePalette;
@@ -63,7 +63,7 @@ export class CaseContainerState {
 
   @Selector()
   static caseStickers(state: CaseContainerStateModel) {
-    return state.caseStickers;
+    return state.caseStickers.filter(caseSticker => !caseSticker.excluded);
   }
 
   constructor() {}
@@ -258,6 +258,27 @@ export class CaseContainerState {
       }
 
       return caseSticker;
+    });
+
+    context.patchState({
+      caseStickers: allCaseStickers
+    });
+  }
+
+  @Action(DeleteCaseSticker)
+  deleteCaseSticker(context: StateContext<CaseContainerStateModel>, action: DeleteCaseSticker) {
+    const allCaseStickers = context.getState().caseStickers;
+
+    allCaseStickers.map(caseSticker => {
+      if (caseSticker.id === action.payload.id) {
+        caseSticker.excluded = true;
+      }
+
+      return caseSticker;
+    });
+
+    context.patchState({
+      caseStickers: allCaseStickers
     });
   }
 }

@@ -1,7 +1,7 @@
 <div class="app-container" fxLayout="row" fxLayoutAlign="center center">
   <div fxFlex></div>
   <div class="case-container" fxLayout="row" fxLayoutAlign="center center">
-    <div class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ', 1)', opacity: casePalette.opacity }">
+    <div class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity +')' }">
       <div
         cdkDrag
         class="draggable-item"
@@ -20,7 +20,6 @@
       </div>
       <div
         cdkDrag
-        cdkDragBoundary=".phone-container"
         class="draggable-item"
         *ngFor="let caseSticker of caseStickers$ | async"
         [ngStyle]="{ 'z-index': caseSticker.index }"
