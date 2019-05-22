@@ -54,6 +54,12 @@ export class CaseStickerEditorComponent implements OnInit {
     this.store.dispatch(new DeleteCaseSticker(caseSticker));
   }
 
+  public rotateChanged(eventInput, caseSticker: CaseSticker) {
+    caseSticker.rotate = eventInput.target.value;
+
+    this.updateCaseSticker(caseSticker);
+  }
+
   private updateCaseSticker(caseSticker: CaseSticker) {
     this.store.dispatch(new UpdateCaseSticker(caseSticker));
   }

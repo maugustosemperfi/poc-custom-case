@@ -16,6 +16,13 @@
         <input matInput [value]="caseSticker.height" (input)="heightChanged($event, caseSticker)" />
       </mat-form-field>
     </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxFlex="40" appearance="outline">
+        <mat-label>Rotate</mat-label>
+        <mat-icon matPrefix>rotate_right</mat-icon>
+        <input matInput type="number" [value]="caseSticker.rotate" (input)="rotateChanged($event, caseSticker)" />
+      </mat-form-field>
+    </div>
     <mat-action-row>
       <button mat-icon-button color="warn" (click)="deleteCaseSticker(caseSticker)">
         <mat-icon>delete</mat-icon>

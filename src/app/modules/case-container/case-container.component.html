@@ -22,7 +22,7 @@
         cdkDrag
         class="draggable-item"
         *ngFor="let caseSticker of caseStickers$ | async"
-        [ngStyle]="{ 'z-index': caseSticker.index }"
+        [ngStyle]="{ 'z-index': caseSticker.index, transform: 'rotate(' + caseSticker.rotate + 'deg)' }"
         (click)="selectCaseSticker(caseSticker)"
       >
         <img [src]="caseSticker.path" [ngStyle]="{ height: caseSticker.height + 'px'}" />
