@@ -6,6 +6,7 @@ import { AddCaseSticker, UpdateCaseSticker } from 'src/app/modules/case-containe
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
+import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
 
 @Component({
   selector: 'app-case-sticker-editor',
@@ -26,11 +27,14 @@ export class CaseStickerEditorComponent implements OnInit {
     });
   }
 
-  public addCaseSticker(caseSticker: CaseSticker, stickerContainer: HTMLElement) {
+  public addCaseSticker(caseSticker: CaseSticker, stickerImg: HTMLImageElement) {
     const caseStickerDispatched = { ...caseSticker };
 
-    caseStickerDispatched.width = stickerContainer.offsetWidth;
-    caseStickerDispatched.height = stickerContainer.offsetHeight;
+    caseStickerDispatched.width = stickerImg.width;
+    caseStickerDispatched.height = stickerImg.height;
+
+    caseStickerDispatched.id = CaseUtilsFunctions.generateComponentId();
+
     this.store.dispatch(new AddCaseSticker(caseStickerDispatched));
   }
 

@@ -1,12 +1,15 @@
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let caseSticker of caseStickers$ | async; let i = index" [expanded]="caseComponentSelected?.id === caseSticker.id">
+  <mat-expansion-panel
+    *ngFor="let caseSticker of caseStickers$ | async; let i = index"
+    [expanded]="caseComponentSelected?.id === caseSticker.id"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title> Sticker {{ i + 1 }} </mat-panel-title>
     </mat-expansion-panel-header>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
       <mat-form-field appearance="outline" fxFlex="50">
         <mat-label>Width</mat-label>
-        <input matInput [value]="caseSticker.width" (input)="widthChanged($event, caseSticker)"/>
+        <input matInput [value]="caseSticker.width" (input)="widthChanged($event, caseSticker)" />
       </mat-form-field>
       <mat-form-field appearance="outline" fxFlex="50">
         <mat-label>Height</mat-label>
@@ -24,8 +27,8 @@
     fxFlex="25"
     fxLayout="row"
     fxLayoutAlign="center center"
-    (click)="addCaseSticker(caseSticker, stickerDiv)"
+    (click)="addCaseSticker(caseSticker, stickerImg)"
   >
-    <img [src]="caseSticker.path" />
+    <img [src]="caseSticker.path" #stickerImg />
   </div>
 </div>

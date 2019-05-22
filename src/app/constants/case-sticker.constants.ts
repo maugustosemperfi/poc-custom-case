@@ -1,7 +1,6 @@
 import { CaseSticker } from '../shared/models/case-sticker.model';
 
 export class CaseStickerConstants {
-
   static readonly stickers: CaseSticker[] = [
     {
       path: 'assets/stickers/' + 1 + '.png'
@@ -28,7 +27,19 @@ export class CaseStickerConstants {
       path: 'assets/stickers/' + 9 + '.png'
     },
     {
-      path: 'assets/stickers/' + 10 + '.png'
+      path: 'assets/stickers/' + 11 + '.png'
+    },
+    {
+      path: 'assets/stickers/' + 12 + '.png'
+    },
+    {
+      path: 'assets/stickers/' + 13 + '.png'
+    },
+    {
+      path: 'assets/stickers/' + 14 + '.png'
+    },
+    {
+      path: 'assets/stickers/' + 15 + '.png'
     }
   ] as CaseSticker[];
 }

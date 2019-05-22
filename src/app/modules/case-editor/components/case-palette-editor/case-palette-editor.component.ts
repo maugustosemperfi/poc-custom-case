@@ -32,7 +32,6 @@ export class CasePaletteEditorComponent implements OnInit {
   ngOnInit() {
     this.store.select(CaseContainerState.casePalette).subscribe(casePalette => {
       this.casePalette = casePalette;
-      console.log(casePalette);
     });
   }
 
