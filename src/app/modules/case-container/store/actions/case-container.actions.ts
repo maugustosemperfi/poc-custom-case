@@ -1,5 +1,6 @@
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
+import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 
 export class AddCaseText {
@@ -55,4 +56,24 @@ export class SelectCaseText {
 export class SelectCaseBackground {
   static readonly type = '[Case Background] Select Case Background';
   constructor(public readonly payload: CaseBackground) {}
+}
+
+export class SelectCaseSticker {
+  static readonly type = '[Case Container] Select Case Sticker';
+  constructor(public readonly payload: CaseSticker) {}
+}
+
+export class AddCaseSticker {
+  static readonly type = '[Case Editor Sticker] Add Case Sticker';
+  constructor(public readonly payload: CaseSticker) {}
+}
+
+export class UpdateCaseSticker {
+  static readonly type = '[Case Editor Sticker] Update Case Sticker';
+  constructor(public readonly payload: CaseSticker) {}
+}
+
+export class DeleteCaseSticker {
+  static readonly type = '[Case Editor Sticker] Delete Case Sticker';
+  constructor(public readonly payload: CaseSticker) {}
 }

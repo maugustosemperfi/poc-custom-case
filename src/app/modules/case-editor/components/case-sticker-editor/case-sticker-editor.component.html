@@ -1,0 +1,46 @@
+<mat-accordion>
+  <mat-expansion-panel
+    *ngFor="let caseSticker of caseStickers$ | async; let i = index"
+    [expanded]="caseComponentSelected?.id === caseSticker.id"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Sticker {{ i + 1 }} </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+      <mat-form-field appearance="outline" fxFlex="50">
+        <mat-label>Width</mat-label>
+        <input matInput [value]="caseSticker.width" (input)="widthChanged($event, caseSticker)" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxFlex="50">
+        <mat-label>Height</mat-label>
+        <input matInput [value]="caseSticker.height" (input)="heightChanged($event, caseSticker)" />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxFlex="40" appearance="outline">
+        <mat-label>Rotate</mat-label>
+        <mat-icon matPrefix>rotate_right</mat-icon>
+        <input matInput type="number" [value]="caseSticker.rotate" (input)="rotateChanged($event, caseSticker)" />
+      </mat-form-field>
+    </div>
+    <mat-action-row>
+      <button mat-icon-button color="warn" (click)="deleteCaseSticker(caseSticker)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div fxLayout="row wrap" fxLayoutGap="8px">
+  <div
+    #stickerDiv
+    *ngFor="let caseSticker of appStickers"
+    class="sticker"
+    fxFlex="25"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    (click)="addCaseSticker(caseSticker, stickerImg)"
+  >
+    <img [src]="caseSticker.path" #stickerImg />
+  </div>
+</div>
