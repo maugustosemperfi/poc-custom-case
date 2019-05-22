@@ -62,6 +62,12 @@ export class CaseTextEditorComponent implements OnInit {
     this.store.dispatch(new OrderCaseText({ previousIndex: event.previousIndex, newIndex: event.currentIndex }));
   }
 
+  public rotateChanged(eventInput, caseText: CaseText) {
+    caseText.rotate = eventInput.target.value;
+
+    this.store.dispatch(new UpdateCaseText(caseText));
+  }
+
   private dispatchUpdateAction(caseText: CaseText) {
     this.store.dispatch(new UpdateCaseText(caseText));
   }

@@ -19,6 +19,13 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field fxFlex="40" appearance="outline">
+          <mat-label>Rotate</mat-label>
+          <mat-icon matPrefix>rotate_right</mat-icon>
+          <input matInput type="number" [value]="caseText.rotate" (input)="rotateChanged($event, caseText)" />
+        </mat-form-field>
+      </div>
       <mat-action-row>
         <button mat-icon-button color="warn" (click)="deleteText(caseText)">
           <mat-icon>delete</mat-icon>
