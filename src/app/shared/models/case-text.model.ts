@@ -5,4 +5,6 @@ export interface CaseText extends CaseComponent {
   text: string;
   fontSize: number;
   font: string;
+  fontLabel: string;
+  fontIndex: number;
 }

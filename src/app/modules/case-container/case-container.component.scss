@@ -37,11 +37,17 @@
       z-index: 10000;
     }
 
+    .text-actions-top {
+      width: 100%;
+      position: absolute;
+      z-index: 10000;
+    }
+
     .components-container {
       width: 100%;
 
       .background-container {
-        max-width: 100%
+        max-width: 100%;
       }
     }
   }

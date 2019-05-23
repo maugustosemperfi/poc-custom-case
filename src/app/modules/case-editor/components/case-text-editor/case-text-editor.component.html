@@ -13,7 +13,7 @@
         <mat-form-field appearance="outline" fxFlex="100">
           <mat-label>Text font</mat-label>
           <mat-select [value]="caseText.font" (selectionChange)="fontValueChanged($event, caseText)">
-            <mat-option *ngFor="let font of fonts" [value]="font.font">
+            <mat-option *ngFor="let font of fonts" [value]="font">
               <span [ngStyle]="{ 'font-family': font.font }">{{ font.labelFont }}</span>
             </mat-option>
           </mat-select>

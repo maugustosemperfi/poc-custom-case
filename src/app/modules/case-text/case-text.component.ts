@@ -22,16 +22,19 @@ export class CaseTextComponent implements OnInit {
       this.editingText = editingText;
 
       if (editingText) {
-        console.log(this.textInput);
         setTimeout(() => {
           this.textInput.nativeElement.focus();
         }, 0);
       }
     });
+
+    setTimeout(() => {
+      this.textInput.nativeElement.focus();
+    }, 0);
   }
 
   inputBlur() {
-    this.store.dispatch(new EditText(null));
+    // this.store.dispatch(new EditText(null));
   }
 
   public textValueChanges(eventInput, caseText: CaseText) {

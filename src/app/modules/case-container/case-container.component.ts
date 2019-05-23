@@ -22,6 +22,7 @@ import {
   ResetCase
 } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
+import { CaseTextFont } from 'src/app/shared/models/csae-text-font.model';
 
 @Component({
   selector: 'app-case-container',
@@ -38,11 +39,16 @@ export class CaseContainerComponent implements OnInit {
   public editingText: CaseText;
 
   private draggableComponentRef: DragRef;
+  private caseTextFonts: CaseTextFont[];
   constructor(private store: Store, private bottomSheet: MatBottomSheet, private dragDrop: DragDrop) {}
 
   ngOnInit() {
     this.setInitialCaseColor();
     this.store.select(CaseContainerState.casePalette).subscribe(casePalette => (this.casePalette = casePalette));
+    this.store.select(CaseContainerState.editedText).subscribe(editedText => {
+      this.editingText = editedText;
+    });
+    this.caseTextFonts = CaseTextConstants.CASE_TEXT_FONTS;
   }
 
   public selectCaseText(caseText: CaseText) {
@@ -71,7 +77,9 @@ export class CaseContainerComponent implements OnInit {
         id: CaseUtilsFunctions.generateComponentId(),
         text: CaseTextConstants.CASE_TEXT_DEFAULT_NAME,
         fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
-        font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT
+        font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT,
+        fontLabel: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL,
+        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX
       } as CaseText)
     );
   }
@@ -108,6 +116,26 @@ export class CaseContainerComponent implements OnInit {
 
   public resetCase() {
     this.store.dispatch(new ResetCase());
+  }
+
+  public updateCaseTextFont(editedText: CaseText) {
+    const fontIndex = editedText.fontIndex;
+
+    if (fontIndex < this.caseTextFonts.length - 1) {
+      editedText.fontIndex = fontIndex + 1;
+      editedText.font = this.caseTextFonts[fontIndex + 1].font;
+      editedText.fontLabel = this.caseTextFonts[fontIndex + 1].labelFont;
+    } else {
+      editedText.fontIndex = CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX;
+      editedText.font = CaseTextConstants.CASE_TEXT_DEFAULT_FONT;
+      editedText.fontLabel = CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL;
+    }
+
+    this.updateCaseText(editedText);
+  }
+
+  public doneEditingText() {
+    this.store.dispatch(new EditText(null));
   }
 
   private setInitialCaseColor() {

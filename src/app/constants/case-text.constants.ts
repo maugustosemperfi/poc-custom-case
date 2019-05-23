@@ -6,6 +6,8 @@ export class CaseTextConstants {
   public static readonly CASE_TEXT_DEFAULT_NAME = 'Seu nome';
   public static readonly CASE_TEXT_DEFAULT_FONT_SIZE = 16;
   public static readonly CASE_TEXT_DEFAULT_FONT = 'antharesregular';
+  public static readonly CASE_TEXT_DEFAULT_FONT_LABEL = 'Anthares';
+  public static readonly CASE_TEXT_DEFAULT_FONT_INDEX = 0;
 
   public static readonly CASE_TEXT_SIZES: CaseTextSize[] = [
     {

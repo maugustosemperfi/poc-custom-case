@@ -10,5 +10,14 @@
   >
     {{ caseText?.text }}
   </p>
-  <input #textInput matInput [hidden]="editingText?.id !== caseText.id" [value]="caseText.text" (blur)="inputBlur($event)" (input)="textValueChanges($event, caseText)" />
+  <mat-form-field [hidden]="editingText?.id !== caseText.id">
+    <input
+      #textInput
+      matInput
+      [value]="caseText.text"
+      [ngStyle]="{ 'font-family': caseText.font }"
+      (blur)="inputBlur($event)"
+      (input)="textValueChanges($event, caseText)"
+    />
+  </mat-form-field>
 </div>
