@@ -58,6 +58,9 @@
     [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }"
   >
     <div class="case-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+      <button mat-icon-button (click)="resetCase()">
+        <mat-icon>autorenew</mat-icon>
+      </button>
       <button mat-icon-button>
         <mat-icon>smartphone</mat-icon>
       </button>

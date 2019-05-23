@@ -1,11 +1,29 @@
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { CaseComponentIndexConstants } from 'src/app/constants/case-components-index.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseSticker, AddCaseText, DeleteCaseBackground, DeleteCaseSticker, DeleteCaseText, EditText, OrderCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseSticker, UpdateCaseText } from '../actions/case-container.actions';
+import {
+  AddCaseBackground,
+  AddCaseSticker,
+  AddCaseText,
+  DeleteCaseBackground,
+  DeleteCaseSticker,
+  DeleteCaseText,
+  EditText,
+  OrderCaseText,
+  ResetCase,
+  SelectCaseBackground,
+  SelectCaseSticker,
+  SelectCaseText,
+  UpdateCaseBackground,
+  UpdateCaseColor,
+  UpdateCasePalette,
+  UpdateCaseSticker,
+  UpdateCaseText
+} from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   casePalette: CasePalette;
@@ -17,20 +35,22 @@ export interface CaseContainerStateModel {
   editedText: CaseText;
 }
 
+const emptyState: CaseContainerStateModel = {
+  casePalette: {
+    color: null,
+    opacity: 1
+  },
+  caseBackgrounds: [],
+  caseTexts: [],
+  caseStickers: [],
+  caseComponentSelected: null,
+  indexStepper: null,
+  editedText: null
+};
+
 @State<CaseContainerStateModel>({
   name: 'caseContainer',
-  defaults: {
-    casePalette: {
-      color: null,
-      opacity: 1
-    },
-    caseBackgrounds: [],
-    caseTexts: [],
-    caseStickers: [],
-    caseComponentSelected: null,
-    indexStepper: null,
-    editedText: null
-  }
+  defaults: emptyState
 })
 export class CaseContainerState {
   @Selector()
@@ -73,7 +93,7 @@ export class CaseContainerState {
     return state.editedText;
   }
 
-  constructor() {}
+  constructor(private store: Store) {}
 
   @Action(AddCaseText)
   AddCaseText(context: StateContext<CaseContainerStateModel>, action: AddCaseText) {
@@ -293,6 +313,22 @@ export class CaseContainerState {
   editText(context: StateContext<CaseContainerStateModel>, action: EditText) {
     context.patchState({
       editedText: action.payload
+    });
+  }
+
+  @Action(ResetCase)
+  resetCase(context: StateContext<CaseContainerStateModel>) {
+    context.patchState({
+      caseBackgrounds: [],
+      caseStickers: [],
+      caseTexts: [],
+      caseComponentSelected: null,
+      casePalette: {
+        color: '255, 255, 255',
+        opacity: 1
+      },
+      editedText: null,
+      indexStepper: null
     });
   }
 }

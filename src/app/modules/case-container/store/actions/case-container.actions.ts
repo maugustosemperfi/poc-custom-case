@@ -82,3 +82,7 @@ export class EditText {
   static readonly type = '[Case Container Mobile] Select Text ';
   constructor(public readonly payload: CaseText) {}
 }
+
+export class ResetCase {
+  static readonly type = '[Case Container State] Reset Case';
+}

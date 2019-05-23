@@ -11,7 +11,16 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
 import { CasePalette } from '../../shared/models/case-palette.model';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
-import { AddCaseBackground, AddCaseText, EditText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
+import {
+  AddCaseBackground,
+  AddCaseText,
+  EditText,
+  SelectCaseBackground,
+  SelectCaseSticker,
+  SelectCaseText,
+  UpdateCaseColor,
+  ResetCase
+} from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
 
 @Component({
@@ -97,8 +106,8 @@ export class CaseContainerComponent implements OnInit {
     };
   }
 
-  public notUpdatingText() {
-    this.editingText = null;
+  public resetCase() {
+    this.store.dispatch(new ResetCase());
   }
 
   private setInitialCaseColor() {
