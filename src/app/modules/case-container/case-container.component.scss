@@ -39,6 +39,10 @@
 
     .components-container {
       width: 100%;
+
+      .background-container {
+        max-width: 100%
+      }
     }
   }
 }

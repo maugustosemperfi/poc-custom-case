@@ -79,15 +79,14 @@
       <div
         #backgroundElement
         cdkDrag
-        class="draggable-item"
+        class="draggable-item background-container"
         *ngFor="let caseBackground of caseBackgrounds$ | async"
         [ngStyle]="{ 'z-index': caseBackground.index }"
       >
         <img
           [src]="caseBackground.backgroundImgUrl"
           [ngStyle]="{
-            width: caseBackground.width + 'px',
-            height: caseBackground.height + 'px',
+            width: '100%',
             transform: 'rotate(' + caseBackground.rotate + 'deg)'
           }"
           (click)="selectCaseBackground(caseBackground)"
