@@ -60,12 +60,54 @@
       <button mat-icon-button>
         <mat-icon>palette</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="fileInput.click()">
         <mat-icon>wallpaper</mat-icon>
       </button>
       <button mat-icon-button>
         <mat-icon>text_fields</mat-icon>
       </button>
+      <button mat-icon-button (click)="openStickersSheet()">
+        <mat-icon>tag_faces</mat-icon>
+      </button>
+      <input hidden type="file" accept="image/*" #fileInput (change)="selectedBackgroundFile(fileInput.files)" />
+    </div>
+    <div fxFlex="100" class="components-container" fxLayout="column" fxLayoutAlign="center center">
+      <div
+        #backgroundElement
+        class="draggable-item"
+        *ngFor="let caseBackground of caseBackgrounds$ | async"
+        [ngStyle]="{ 'z-index': caseBackground.index }"
+        (press)="componentPressed(backgroundElement)"
+        (pressup)="componentPressedUp($event)"
+      >
+        <img
+          [src]="caseBackground.backgroundImgUrl"
+          [ngStyle]="{
+            width: caseBackground.width + 'px',
+            height: caseBackground.height + 'px',
+            transform: 'rotate(' + caseBackground.rotate + 'deg)'
+          }"
+          (click)="selectCaseBackground(caseBackground)"
+        />
+      </div>
+      <div
+        class="draggable-item"
+        *ngFor="let caseSticker of caseStickers$ | async"
+        #stickerElement
+        [ngStyle]="{ 'z-index': caseSticker.index }"
+        (click)="selectCaseSticker(caseSticker)"
+        (press)="componentPressed(stickerElement)"
+        (pressup)="componentPressedUp($event)"
+      >
+        <img
+          [src]="caseSticker.path"
+          [ngStyle]="{
+            height: caseSticker.height + 'px',
+            width: caseSticker.width + 'px',
+            transform: 'rotate(' + caseSticker.rotate + 'deg)'
+          }"
+        />
+      </div>
     </div>
   </div>
 </div>

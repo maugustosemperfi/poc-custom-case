@@ -14,10 +14,6 @@
       background: #fff;
       position: relative;
       overflow: hidden;
-
-      .draggable-item {
-        position: absolute;
-      }
     }
   }
 
@@ -34,5 +30,19 @@
   .phone-case-mobile {
     width: 100%;
     background-color: #f2f2f2;
+
+    .case-actions {
+      width: 100%;
+      position: absolute;
+      z-index: 10000;
+    }
+
+    .components-container {
+      width: 100%;
+    }
   }
+}
+
+.draggable-item {
+  position: absolute;
 }
