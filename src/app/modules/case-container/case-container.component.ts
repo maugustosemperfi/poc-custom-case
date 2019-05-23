@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { CaseTextConstants } from 'src/app/constants/case-text.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
@@ -10,7 +11,7 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
 import { CasePalette } from '../../shared/models/case-palette.model';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
-import { AddCaseBackground, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
 
 @Component({
@@ -52,6 +53,17 @@ export class CaseContainerComponent implements OnInit {
 
   public openPaletteSheet() {
     this.bottomSheet.open(MobilePaletteSheetComponent);
+  }
+
+  public addNewText() {
+    this.store.dispatch(
+      new AddCaseText({
+        id: CaseUtilsFunctions.generateComponentId(),
+        text: CaseTextConstants.CASE_TEXT_DEFAULT_NAME,
+        fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
+        font: CaseTextConstants.CASE_TEXT_DEFAULT_FON
+      } as CaseText)
+    );
   }
 
   public componentPressed(htmlElement: HTMLElement) {

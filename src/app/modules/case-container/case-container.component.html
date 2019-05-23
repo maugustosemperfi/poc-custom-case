@@ -1,4 +1,4 @@
-<div class="app-container" fxLayout="row" fxLayoutAlign="center center" fxShow.lg="true" fxHide.sm="true" fxHide>
+<div class="app-container" fxLayout="row" fxLayoutAlign="center center" fxHide fxShow.lg="true" fxShow.sm="false">
   <div fxFlex></div>
   <div class="case-container" fxLayout="row" fxLayoutAlign="center center">
     <div class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }">
@@ -67,7 +67,7 @@
       <button mat-icon-button (click)="fileInput.click()">
         <mat-icon>wallpaper</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="addNewText()">
         <mat-icon>text_fields</mat-icon>
       </button>
       <button mat-icon-button (click)="openStickersSheet()">
@@ -111,6 +111,18 @@
             transform: 'rotate(' + caseSticker.rotate + 'deg)'
           }"
         />
+      </div>
+      <div
+        #textElement
+        class="draggable-item"
+        *ngFor="let caseText of caseTexts$ | async"
+        cdkDragBoundary=".phone-container"
+        [ngStyle]="{ 'z-index': caseText.index }"
+        (click)="selectCaseText(caseText)"
+        (press)="componentPressed(textElement)"
+        (pressup)="componentPressedUp($event)"
+      >
+        <app-case-text [caseText]="caseText"></app-case-text>
       </div>
     </div>
   </div>
