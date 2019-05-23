@@ -1,0 +1,12 @@
+.palettes-container {
+  .palette-item {
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+    margin: 8px 0;
+
+    .selected {
+      border: 1px solid #f2f2f2;
+    }
+  }
+}

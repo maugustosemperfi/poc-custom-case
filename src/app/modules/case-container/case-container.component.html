@@ -52,12 +52,16 @@
   </div>
 </div>
 <div fxLayout="column" fxLayoutAlign="center center" fxShow.sm="true" fxShow.lg="false" class="phone-case-mobile-container">
-  <div class="phone-case-mobile" fxFlex="100">
+  <div
+    class="phone-case-mobile"
+    fxFlex="100"
+    [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }"
+  >
     <div class="case-actions" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
       <button mat-icon-button>
         <mat-icon>smartphone</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="openPaletteSheet()">
         <mat-icon>palette</mat-icon>
       </button>
       <button mat-icon-button (click)="fileInput.click()">

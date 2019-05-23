@@ -8,6 +8,7 @@ import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
 import { CasePalette } from '../../shared/models/case-palette.model';
+import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
 import { AddCaseBackground, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
@@ -47,6 +48,10 @@ export class CaseContainerComponent implements OnInit {
 
   public openStickersSheet() {
     this.bottomSheet.open(MobileSticersBottomSheetComponent);
+  }
+
+  public openPaletteSheet() {
+    this.bottomSheet.open(MobilePaletteSheetComponent);
   }
 
   public componentPressed(htmlElement: HTMLElement) {
