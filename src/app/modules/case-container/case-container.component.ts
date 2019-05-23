@@ -11,7 +11,7 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
 import { CasePalette } from '../../shared/models/case-palette.model';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
-import { AddCaseBackground, AddCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, EditText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
 
 @Component({
@@ -26,6 +26,7 @@ export class CaseContainerComponent implements OnInit {
   @Select(CaseContainerState.caseStickers) caseStickers$: Observable<CaseSticker[]>;
 
   public casePalette: CasePalette;
+  public editingText: CaseText;
 
   private draggableComponentRef: DragRef;
   constructor(private store: Store, private bottomSheet: MatBottomSheet, private dragDrop: DragDrop) {}
@@ -61,9 +62,13 @@ export class CaseContainerComponent implements OnInit {
         id: CaseUtilsFunctions.generateComponentId(),
         text: CaseTextConstants.CASE_TEXT_DEFAULT_NAME,
         fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
-        font: CaseTextConstants.CASE_TEXT_DEFAULT_FON
+        font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT
       } as CaseText)
     );
+  }
+
+  public updateCaseText(caseText: CaseText) {
+    this.store.dispatch(new EditText(caseText));
   }
 
   public componentPressed(htmlElement: HTMLElement) {
@@ -90,6 +95,10 @@ export class CaseContainerComponent implements OnInit {
     reader.onload = () => {
       this.loadImage(reader.result);
     };
+  }
+
+  public notUpdatingText() {
+    this.editingText = null;
   }
 
   private setInitialCaseColor() {

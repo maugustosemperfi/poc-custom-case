@@ -1,3 +1,14 @@
 <div class="case-text-container">
-  <p [ngStyle]="{ 'font-family': caseText.font, 'fontSize': caseText.fontSize + 'px', 'margin': 0, transform: 'rotate(' + caseText.rotate + 'deg)' }">{{ caseText?.text }}</p>
+  <p
+    [ngStyle]="{
+      'font-family': caseText.font,
+      fontSize: caseText.fontSize + 'px',
+      margin: 0,
+      transform: 'rotate(' + caseText.rotate + 'deg)'
+    }"
+    [hidden]="editingText?.id === caseText.id"
+  >
+    {{ caseText?.text }}
+  </p>
+  <input #textInput matInput [hidden]="editingText?.id !== caseText.id" [value]="caseText.text" (blur)="inputBlur($event)" (input)="textValueChanges($event, caseText)" />
 </div>

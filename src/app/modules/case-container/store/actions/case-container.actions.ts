@@ -77,3 +77,8 @@ export class DeleteCaseSticker {
   static readonly type = '[Case Editor Sticker] Delete Case Sticker';
   constructor(public readonly payload: CaseSticker) {}
 }
+
+export class EditText {
+  static readonly type = '[Case Container Mobile] Select Text ';
+  constructor(public readonly payload: CaseText) {}
+}

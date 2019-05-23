@@ -5,7 +5,7 @@ import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
-import { AddCaseBackground, AddCaseSticker, AddCaseText, DeleteCaseBackground, DeleteCaseSticker, DeleteCaseText, OrderCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseSticker, UpdateCaseText } from '../actions/case-container.actions';
+import { AddCaseBackground, AddCaseSticker, AddCaseText, DeleteCaseBackground, DeleteCaseSticker, DeleteCaseText, EditText, OrderCaseText, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseBackground, UpdateCaseColor, UpdateCasePalette, UpdateCaseSticker, UpdateCaseText } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
   casePalette: CasePalette;
@@ -14,6 +14,7 @@ export interface CaseContainerStateModel {
   caseStickers: CaseSticker[];
   caseComponentSelected: CaseComponent;
   indexStepper: number;
+  editedText: CaseText;
 }
 
 @State<CaseContainerStateModel>({
@@ -27,7 +28,8 @@ export interface CaseContainerStateModel {
     caseTexts: [],
     caseStickers: [],
     caseComponentSelected: null,
-    indexStepper: null
+    indexStepper: null,
+    editedText: null
   }
 })
 export class CaseContainerState {
@@ -64,6 +66,11 @@ export class CaseContainerState {
   @Selector()
   static caseStickers(state: CaseContainerStateModel) {
     return state.caseStickers.filter(caseSticker => !caseSticker.excluded);
+  }
+
+  @Selector()
+  static editedText(state: CaseContainerStateModel) {
+    return state.editedText;
   }
 
   constructor() {}
@@ -279,6 +286,13 @@ export class CaseContainerState {
 
     context.patchState({
       caseStickers: allCaseStickers
+    });
+  }
+
+  @Action(EditText)
+  editText(context: StateContext<CaseContainerStateModel>, action: EditText) {
+    context.patchState({
+      editedText: action.payload
     });
   }
 }
