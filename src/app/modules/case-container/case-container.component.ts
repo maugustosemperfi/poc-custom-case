@@ -28,6 +28,7 @@ export class CaseContainerComponent implements OnInit {
 
   public casePalette: CasePalette;
   public editingText: CaseText;
+  public textColors: string[];
 
   private draggableComponentRef: DragRef;
   private caseTextFonts: CaseTextFont[];
@@ -40,6 +41,7 @@ export class CaseContainerComponent implements OnInit {
       this.editingText = editedText;
     });
     this.caseTextFonts = CaseTextConstants.CASE_TEXT_FONTS;
+    this.textColors = CaseTextConstants.CASE_TEXT_COLORS;
   }
 
   public selectCaseText(caseText: CaseText) {
@@ -127,6 +129,12 @@ export class CaseContainerComponent implements OnInit {
 
   public doneEditingText() {
     this.store.dispatch(new EditText(null));
+  }
+
+  public editTextColor(textColor, editedText: CaseText) {
+    editedText.color = textColor;
+
+    this.updateCaseText(editedText);
   }
 
   private setInitialCaseColor() {

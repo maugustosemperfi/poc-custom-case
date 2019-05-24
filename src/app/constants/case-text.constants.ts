@@ -58,4 +58,16 @@ export class CaseTextConstants {
       font: 'sansterdamdemo'
     }
   ];
+
+  public static readonly CASE_TEXT_COLORS: string[] = [
+    '255, 255, 255',
+    '0, 0, 0',
+    '56, 151, 241',
+    '112, 192, 79',
+    '253, 203, 92',
+    '252, 141, 51',
+    '238, 73, 87',
+    '209, 7, 106',
+    '162, 7, 186'
+  ];
 }

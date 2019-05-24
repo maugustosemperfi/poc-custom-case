@@ -4,7 +4,8 @@
       'font-family': caseText.font,
       fontSize: caseText.fontSize + 'px',
       margin: 0,
-      transform: 'rotate(' + caseText.rotate + 'deg)'
+      transform: 'rotate(' + caseText.rotate + 'deg)',
+      color: 'rgb(' + caseText.color + ')'
     }"
     [hidden]="editingText?.id === caseText.id"
   >
@@ -15,7 +16,11 @@
       #textInput
       matInput
       [value]="caseText.text"
-      [ngStyle]="{ 'font-family': caseText.font, 'font-size': caseText.fontSize + 'px' }"
+      [ngStyle]="{
+        'font-family': caseText.font,
+        'font-size': caseText.fontSize + 'px',
+        color: 'rgb(' + caseText.color + ')'
+      }"
       (blur)="inputBlur($event)"
       (input)="textValueChanges($event, caseText)"
     />

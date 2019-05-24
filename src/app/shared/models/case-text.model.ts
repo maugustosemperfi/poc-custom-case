@@ -7,4 +7,5 @@ export interface CaseText extends CaseComponent {
   font: string;
   fontLabel: string;
   fontIndex: number;
+  color: string;
 }
