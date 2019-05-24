@@ -52,7 +52,6 @@
   </div>
 </div>
 <div fxLayout="column" fxLayoutAlign="center center" fxShow.sm="true" fxShow.lg="false" class="phone-case-mobile-container">
-  <p>{{pinchDistance}}</p>
   <div
     class="phone-case-mobile"
     fxFlex="100"
@@ -80,9 +79,6 @@
         <div class="case-options" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
           <button mat-icon-button (click)="resetCase()">
             <mat-icon>refresh</mat-icon>
-          </button>
-          <button mat-icon-button>
-            <mat-icon>smartphone</mat-icon>
           </button>
           <button mat-icon-button (click)="openPaletteSheet()">
             <mat-icon>palette</mat-icon>
@@ -137,21 +133,14 @@
         />
       </div>
       <div
-
+        cdkDrag
         class="draggable-item"
         *ngFor="let caseSticker of caseStickers$ | async"
         #stickerElement
         [ngStyle]="{ 'z-index': caseSticker.index }"
+        [matMenuTriggerFor]="customPopover"
         (click)="selectCaseSticker(caseSticker)"
-        (tap)="componentPressed($event, stickerElement)"
-        (pan)="componentPressed($event, stickerElement)"
-        (press)="componentPressed($event, stickerElement)"
-        (panend)="componentPressedUp()"
-        (pressup)="componentPressedUp()"
-        (pinchmove)="onPinch($event, caseSticker)"
-        (pinchend)="onPinchEnd($event, caseSticker)"
-        (rotate)="rotateStickerChanged($event, caseSticker)"
-        >
+      >
         <img
           [src]="caseSticker.path"
           [ngStyle]="{
@@ -175,3 +164,11 @@
     </div>
   </div>
 </div>
+<mat-menu #customPopover="matMenu">
+  <div fxLayout="row">
+    <button mat-icon-button (click)="increaseSize()"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button (click)="decreaseSize()"><mat-icon>remove</mat-icon></button>
+    <button mat-icon-button (click)="rotateLeft()"><mat-icon>rotate_left</mat-icon></button>
+    <button mat-icon-button (click)="rotateRight()"><mat-icon>rotate_right</mat-icon></button>
+  </div>
+</mat-menu>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 import { EditText, UpdateCaseText } from '../case-container/store/actions/case-container.actions';
@@ -27,10 +27,6 @@ export class CaseTextComponent implements OnInit {
         }, 0);
       }
     });
-
-    setTimeout(() => {
-      this.textInput.nativeElement.focus();
-    }, 0);
   }
 
   inputBlur() {

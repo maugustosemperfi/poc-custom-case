@@ -12,8 +12,21 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
 import { CasePalette } from '../../shared/models/case-palette.model';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
-import { AddCaseBackground, AddCaseText, EditText, ResetCase, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor, UpdateCaseSticker, UpdateCaseText } from './store/actions/case-container.actions';
+import {
+  AddCaseBackground,
+  AddCaseText,
+  EditText,
+  ResetCase,
+  SelectCaseBackground,
+  SelectCaseSticker,
+  SelectCaseText,
+  UpdateCaseColor,
+  UpdateCaseSticker,
+  UpdateCaseText,
+  UpdateSelectedComponent
+} from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
+import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 
 @Component({
   selector: 'app-case-container',
@@ -35,6 +48,7 @@ export class CaseContainerComponent implements OnInit {
 
   private draggableComponentRef: DragRef;
   private caseTextFonts: CaseTextFont[];
+  private selectedComponent: CaseComponent;
   constructor(private store: Store, private bottomSheet: MatBottomSheet, private dragDrop: DragDrop) {}
 
   ngOnInit() {
@@ -42,6 +56,9 @@ export class CaseContainerComponent implements OnInit {
     this.store.select(CaseContainerState.casePalette).subscribe(casePalette => (this.casePalette = casePalette));
     this.store.select(CaseContainerState.editedText).subscribe(editedText => {
       this.editingText = editedText;
+    });
+    this.store.select(CaseContainerState.selectedCaseComponent).subscribe(selectedComponent => {
+      this.selectedComponent = selectedComponent;
     });
     this.caseTextFonts = CaseTextConstants.CASE_TEXT_FONTS;
     this.textColors = CaseTextConstants.CASE_TEXT_COLORS;
@@ -171,7 +188,6 @@ export class CaseContainerComponent implements OnInit {
   }
 
   public onPinchEnd(event, caseSticker: CaseSticker) {
-
     caseSticker.bWidth = caseSticker.width;
     caseSticker.bHeight = caseSticker.height;
     caseSticker.lastX = null;
@@ -194,6 +210,42 @@ export class CaseContainerComponent implements OnInit {
     const fontSize = eventInput.value;
     editingText.fontSize = fontSize;
     this.store.dispatch(new UpdateCaseText(fontSize));
+  }
+
+  public rotateLeft() {
+    if (this.selectedComponent.rotate === null) {
+      this.selectedComponent.rotate = 0;
+    }
+
+    this.selectedComponent.rotate += 90;
+    this.updateSelectedComponent();
+  }
+
+  public rotateRight() {
+    if (this.selectedComponent.rotate === null) {
+      this.selectedComponent.rotate = 0;
+    }
+
+    this.selectedComponent.rotate -= 90;
+    this.updateSelectedComponent();
+  }
+
+  public increaseSize() {
+    this.selectedComponent.width += this.selectedComponent.width * 0.3;
+    this.selectedComponent.height += this.selectedComponent.height * 0.3;
+
+    this.updateSelectedComponent();
+  }
+
+  public decreaseSize() {
+    this.selectedComponent.width -= this.selectedComponent.width * 0.3;
+    this.selectedComponent.height -= this.selectedComponent.height * 0.3;
+
+    this.updateSelectedComponent();
+  }
+
+  private updateSelectedComponent() {
+    this.store.dispatch(new UpdateSelectedComponent(this.selectedComponent));
   }
 
   private loadImage(result: string | ArrayBuffer) {

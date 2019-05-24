@@ -1,4 +1,5 @@
 export interface CaseComponent {
+  discriminator: string;
   id: string;
   index: number;
   rotate: number;
@@ -6,4 +7,6 @@ export interface CaseComponent {
   selected: boolean;
   lastX: number;
   lastY: number;
+  width: number;
+  height: number;
 }

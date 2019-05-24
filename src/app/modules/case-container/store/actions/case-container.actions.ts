@@ -2,6 +2,7 @@ import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
+import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 
 export class AddCaseText {
   static readonly type = '[Case Editor Container] Add Case Text';
@@ -85,4 +86,9 @@ export class EditText {
 
 export class ResetCase {
   static readonly type = '[Case Container State] Reset Case';
+}
+
+export class UpdateSelectedComponent {
+  static readonly type = '[Case Container] Update Selected Component';
+  constructor(public readonly payload: CaseComponent) {}
 }
