@@ -41,7 +41,9 @@ export class CaseTextEditorComponent implements OnInit {
         id: this.generateId(),
         text: CaseTextConstants.CASE_TEXT_DEFAULT_NAME,
         fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
-        fontLabel: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL
+        fontLabel: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL,
+        font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT,
+        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX,
       } as CaseText)
     );
   }

@@ -52,6 +52,7 @@
   </div>
 </div>
 <div fxLayout="column" fxLayoutAlign="center center" fxShow.sm="true" fxShow.lg="false" class="phone-case-mobile-container">
+  <p>{{pinchDistance}}</p>
   <div
     class="phone-case-mobile"
     fxFlex="100"
@@ -103,7 +104,7 @@
           <div fxFlex="20"></div>
           <button mat-stroked-button (click)="updateCaseTextFont(editingText)">{{ editingText?.fontLabel }}</button>
           <div fxFlex="20" fxLayout="row" fxLayoutAlign="end center">
-            <button mat-icon-button (click)="doneEditingText(editingText)"><mat-icon>check</mat-icon></button>
+            <button mat-icon-button (click)="doneEditingText()"><mat-icon>check</mat-icon></button>
           </div>
         </div>
       </div>
@@ -136,13 +137,21 @@
         />
       </div>
       <div
-        cdkDrag
+
         class="draggable-item"
         *ngFor="let caseSticker of caseStickers$ | async"
         #stickerElement
         [ngStyle]="{ 'z-index': caseSticker.index }"
         (click)="selectCaseSticker(caseSticker)"
-      >
+        (tap)="componentPressed($event, stickerElement)"
+        (pan)="componentPressed($event, stickerElement)"
+        (press)="componentPressed($event, stickerElement)"
+        (panend)="componentPressedUp()"
+        (pressup)="componentPressedUp()"
+        (pinchmove)="onPinch($event, caseSticker)"
+        (pinchend)="onPinchEnd($event, caseSticker)"
+        (rotate)="rotateStickerChanged($event, caseSticker)"
+        >
         <img
           [src]="caseSticker.path"
           [ngStyle]="{

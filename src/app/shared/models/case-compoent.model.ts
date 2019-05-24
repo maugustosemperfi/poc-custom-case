@@ -4,4 +4,6 @@ export interface CaseComponent {
   rotate: number;
   excluded: boolean;
   selected: boolean;
+  lastX: number;
+  lastY: number;
 }

@@ -25,7 +25,12 @@ export class MobilePaletteSheetComponent implements OnInit {
     '195, 201, 233',
     '142, 108, 136',
     '195, 141, 148',
-    '78, 47, 47'
+    '78, 47, 47',
+    '254, 223, 241',
+    '253, 211, 28',
+    '255, 233, 176',
+    '124, 201, 195',
+    '242, 175, 159'
   ];
 
   constructor(private store: Store) {}

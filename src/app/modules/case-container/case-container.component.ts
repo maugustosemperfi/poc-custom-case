@@ -12,7 +12,7 @@ import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions
 import { CasePalette } from '../../shared/models/case-palette.model';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
-import { AddCaseBackground, AddCaseText, EditText, ResetCase, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor, UpdateCaseText } from './store/actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, EditText, ResetCase, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor, UpdateCaseSticker, UpdateCaseText } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
 
 @Component({
@@ -29,6 +29,9 @@ export class CaseContainerComponent implements OnInit {
   public casePalette: CasePalette;
   public editingText: CaseText;
   public textColors: string[];
+  public pinchStartDistance: string;
+  public pinchEndDistance: string;
+  public pinchDistance: string;
 
   private draggableComponentRef: DragRef;
   private caseTextFonts: CaseTextFont[];
@@ -81,7 +84,8 @@ export class CaseContainerComponent implements OnInit {
     this.store.dispatch(new EditText(caseText));
   }
 
-  public componentPressed(htmlElement: HTMLElement) {
+  public componentPressed(event, htmlElement: HTMLElement) {
+    this.pinchDistance = event.distance;
     this.draggableComponentRef = this.dragDrop.createDrag(htmlElement);
   }
 
@@ -135,6 +139,51 @@ export class CaseContainerComponent implements OnInit {
     editedText.color = textColor;
 
     this.updateCaseText(editedText);
+  }
+
+  public onPinch(event, caseSticker: CaseSticker) {
+    this.pinchDistance = event.distance;
+
+    let deltaX = event.deltaX;
+    if (deltaX < 0) {
+      deltaX = deltaX * 2;
+    }
+
+    let deltaY = event.deltaY;
+    if (deltaY < 0) {
+      deltaY = event.deltaY;
+    }
+
+    if (caseSticker.lastX && caseSticker.lastY) {
+      if (deltaX + deltaY > caseSticker.lastX + caseSticker.lastY) {
+        caseSticker.width = caseSticker.bWidth + caseSticker.bWidth * (event.distance / 50);
+        caseSticker.height = caseSticker.bHeight + caseSticker.bHeight * (event.distance / 50);
+      } else {
+        caseSticker.width = caseSticker.bWidth - caseSticker.bWidth * (event.distance / 50);
+        caseSticker.height = caseSticker.bHeight - caseSticker.bHeight * (event.distance / 50);
+      }
+    }
+
+    caseSticker.lastX = event.deltaX;
+    caseSticker.lastY = event.deltaY;
+
+    this.store.dispatch(new UpdateCaseSticker(caseSticker));
+  }
+
+  public onPinchEnd(event, caseSticker: CaseSticker) {
+
+    caseSticker.bWidth = caseSticker.width;
+    caseSticker.bHeight = caseSticker.height;
+    caseSticker.lastX = null;
+    caseSticker.lastY = null;
+
+    this.store.dispatch(new UpdateCaseSticker(caseSticker));
+  }
+
+  public rotateStickerChanged(event, caseComponent: CaseSticker) {
+    caseComponent.rotate = caseComponent.rotate + event.rotation;
+
+    this.store.dispatch(new UpdateCaseSticker(caseComponent));
   }
 
   private setInitialCaseColor() {
