@@ -7,22 +7,13 @@ import { CaseTextConstants } from 'src/app/constants/case-text.constants';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
+import { CaseTextFont } from 'src/app/shared/models/csae-text-font.model';
 import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
 import { CasePalette } from '../../shared/models/case-palette.model';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
-import {
-  AddCaseBackground,
-  AddCaseText,
-  EditText,
-  SelectCaseBackground,
-  SelectCaseSticker,
-  SelectCaseText,
-  UpdateCaseColor,
-  ResetCase
-} from './store/actions/case-container.actions';
+import { AddCaseBackground, AddCaseText, EditText, ResetCase, SelectCaseBackground, SelectCaseSticker, SelectCaseText, UpdateCaseColor, UpdateCaseText } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
-import { CaseTextFont } from 'src/app/shared/models/csae-text-font.model';
 
 @Component({
   selector: 'app-case-container',
@@ -140,6 +131,12 @@ export class CaseContainerComponent implements OnInit {
 
   private setInitialCaseColor() {
     this.store.dispatch(new UpdateCaseColor('255, 255, 255'));
+  }
+
+  public fontSizeChanged(eventInput, editingText: CaseText) {
+    const fontSize = eventInput.value;
+    editingText.fontSize = fontSize;
+    this.store.dispatch(new UpdateCaseText(fontSize));
   }
 
   private loadImage(result: string | ArrayBuffer) {

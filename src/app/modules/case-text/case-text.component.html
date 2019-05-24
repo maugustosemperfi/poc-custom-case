@@ -15,7 +15,7 @@
       #textInput
       matInput
       [value]="caseText.text"
-      [ngStyle]="{ 'font-family': caseText.font }"
+      [ngStyle]="{ 'font-family': caseText.font, 'font-size': caseText.fontSize + 'px' }"
       (blur)="inputBlur($event)"
       (input)="textValueChanges($event, caseText)"
     />

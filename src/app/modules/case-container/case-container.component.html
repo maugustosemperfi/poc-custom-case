@@ -57,6 +57,23 @@
     fxFlex="100"
     [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }"
   >
+    <div class="text-done-container" [hidden]="editingText === null" (click)="doneEditingText()">
+      <div fxLayout="column" fxLayoutAlign="center" style="height: 100%; z-index: 30">
+        <div fxLayout="column" fxLayoutAlign="center" class="text-slider-font">
+          <mat-slider
+            fxFlex="100"
+            [min]="12"
+            [max]="30"
+            [step]="1"
+            [thumbLabel]="false"
+            [value]="editingText?.fontSize"
+            (input)="fontSizeChanged($event, editingText)"
+            [vertical]="true"
+          >
+          </mat-slider>
+        </div>
+      </div>
+    </div>
     <div class="case-actions">
       <div [hidden]="editingText !== null">
         <div class="case-options" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
@@ -82,7 +99,7 @@
         </div>
       </div>
       <div [hidden]="editingText === null">
-        <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-actions-top">
           <div fxFlex="20"></div>
           <button mat-stroked-button (click)="updateCaseTextFont(editingText)">{{ editingText?.fontLabel }}</button>
           <div fxFlex="20" fxLayout="row" fxLayoutAlign="end center">
