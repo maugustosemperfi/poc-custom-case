@@ -12,7 +12,7 @@ export class CaseTextConstants {
   public static readonly CASE_TEXT_SIZES: CaseTextSize[] = [
     {
       size: 12,
-      label: 'Pequena'
+      label: 'Small'
     },
     {
       size: 16,
@@ -20,11 +20,11 @@ export class CaseTextConstants {
     },
     {
       size: 22,
-      label: 'Grande'
+      label: 'Big'
     },
     {
       size: 28,
-      label: 'Muito grande'
+      label: 'Large'
     }
   ];
 
