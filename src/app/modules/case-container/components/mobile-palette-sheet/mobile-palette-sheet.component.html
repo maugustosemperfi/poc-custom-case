@@ -1,0 +1,21 @@
+<h4>Choose one of colors above to apply to your case</h4>
+<div class="palettes-container" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="8px">
+  <div
+    *ngFor="let palette of colorPalettes"
+    class="palette-item"
+    [ngStyle]="{ 'background-color': 'rgb(' + palette + ')' }"
+    (click)="selectPalette(palette)"
+  ></div>
+</div>
+<div fxLayout="row wrap">
+  <p>Opacity</p>
+  <mat-slider
+    fxFlex="100"
+    [min]="10"
+    [max]="100"
+    [step]="1"
+    [thumbLabel]="true"
+    [value]="casePalette.opacity * 100"
+    (input)="opacityChanged($event)"
+  ></mat-slider>
+</div>

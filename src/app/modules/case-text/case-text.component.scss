@@ -1,2 +1,12 @@
 .case-text-container {
+
+  .text-options-top {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  [hidden] {
+    display: none;
+  }
 }

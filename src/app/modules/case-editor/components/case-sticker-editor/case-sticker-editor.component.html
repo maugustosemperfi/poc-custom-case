@@ -31,7 +31,9 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<div fxLayout="row wrap" fxLayoutGap="8px">
+<button mat-raised-button (click)="openStickerSheet()">Add Sticker</button>
+
+<!-- <div fxLayout="row wrap" fxLayoutGap="8px">
   <div
     #stickerDiv
     *ngFor="let caseSticker of appStickers"
@@ -43,4 +45,4 @@
   >
     <img [src]="caseSticker.path" #stickerImg />
   </div>
-</div>
+</div> -->

@@ -40,7 +40,10 @@ export class CaseTextEditorComponent implements OnInit {
       new AddCaseText({
         id: this.generateId(),
         text: CaseTextConstants.CASE_TEXT_DEFAULT_NAME,
-        fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE
+        fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
+        fontLabel: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL,
+        font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT,
+        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX,
       } as CaseText)
     );
   }
@@ -71,8 +74,9 @@ export class CaseTextEditorComponent implements OnInit {
     this.store.dispatch(new UpdateCaseText(caseText));
   }
 
-  public fontValueChanged(eventInput, caseText: CaseText) {
-    caseText.font = eventInput.value;
+  public fontValueChanged(eventInput: CaseTextFont, caseText: CaseText) {
+    caseText.font = eventInput.font;
+    caseText.fontLabel = eventInput.labelFont;
 
     this.dispatchUpdateAction(caseText);
   }

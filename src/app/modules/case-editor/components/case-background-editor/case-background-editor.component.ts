@@ -82,7 +82,8 @@ export class CaseBackgroundEditorComponent implements OnInit {
         id: CaseUtilsFunctions.generateComponentId(),
         backgroundImgUrl: result,
         width: image.width,
-        height: image.height
+        height: image.height,
+        rotate: 0
       } as CaseBackground;
 
       this.addCaseBackground(caseBackground);

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { UpdateCasePalette } from 'src/app/modules/case-container/store/actions/case-container.actions';
-import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
+import { UpdateCasePalette } from '../../store/actions/case-container.actions';
+import { CaseContainerState } from '../../store/state/case-container.state';
 
 @Component({
-  selector: 'app-case-palette-editor',
-  templateUrl: './case-palette-editor.component.html',
-  styleUrls: ['./case-palette-editor.component.scss']
+  selector: 'app-mobile-palette-sheet',
+  templateUrl: './mobile-palette-sheet.component.html',
+  styleUrls: ['./mobile-palette-sheet.component.scss']
 })
-export class CasePaletteEditorComponent implements OnInit {
+export class MobilePaletteSheetComponent implements OnInit {
   public casePalette: CasePalette;
 
   public colorPalettes = [

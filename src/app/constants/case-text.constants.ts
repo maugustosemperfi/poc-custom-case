@@ -5,11 +5,14 @@ export class CaseTextConstants {
   public static readonly CASE_TEXT_MAX_LENGTH = 30;
   public static readonly CASE_TEXT_DEFAULT_NAME = 'Seu nome';
   public static readonly CASE_TEXT_DEFAULT_FONT_SIZE = 16;
+  public static readonly CASE_TEXT_DEFAULT_FONT = 'antharesregular';
+  public static readonly CASE_TEXT_DEFAULT_FONT_LABEL = 'Anthares';
+  public static readonly CASE_TEXT_DEFAULT_FONT_INDEX = 0;
 
   public static readonly CASE_TEXT_SIZES: CaseTextSize[] = [
     {
       size: 12,
-      label: 'Pequena'
+      label: 'Small'
     },
     {
       size: 16,
@@ -17,11 +20,11 @@ export class CaseTextConstants {
     },
     {
       size: 22,
-      label: 'Grande'
+      label: 'Big'
     },
     {
       size: 28,
-      label: 'Muito grande'
+      label: 'Large'
     }
   ];
 
@@ -54,5 +57,17 @@ export class CaseTextConstants {
       labelFont: 'Sansterdam',
       font: 'sansterdamdemo'
     }
+  ];
+
+  public static readonly CASE_TEXT_COLORS: string[] = [
+    '255, 255, 255',
+    '0, 0, 0',
+    '56, 151, 241',
+    '112, 192, 79',
+    '253, 203, 92',
+    '252, 141, 51',
+    '238, 73, 87',
+    '209, 7, 106',
+    '162, 7, 186'
   ];
 }
