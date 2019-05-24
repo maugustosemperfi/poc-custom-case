@@ -7,6 +7,8 @@ import { CaseContainerState } from 'src/app/modules/case-container/store/state/c
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
+import { MatBottomSheet } from '@angular/material';
+import { MobileSticersBottomSheetComponent } from 'src/app/modules/case-container/components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
 
 @Component({
   selector: 'app-case-sticker-editor',
@@ -18,7 +20,7 @@ export class CaseStickerEditorComponent implements OnInit {
   public caseComponentSelected: CaseComponent;
   @Select(CaseContainerState.caseStickers) public caseStickers$: Observable<CaseSticker[]>;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private bottomSheet: MatBottomSheet) {}
 
   ngOnInit() {
     this.appStickers = CaseStickerConstants.stickers;
@@ -60,6 +62,10 @@ export class CaseStickerEditorComponent implements OnInit {
     caseSticker.rotate = eventInput.target.value;
 
     this.updateCaseSticker(caseSticker);
+  }
+
+  public openStickerSheet() {
+    this.bottomSheet.open(MobileSticersBottomSheetComponent);
   }
 
   private updateCaseSticker(caseSticker: CaseSticker) {
