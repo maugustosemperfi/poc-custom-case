@@ -1,12 +1,13 @@
 <div class="app-container" fxLayout="row" fxLayoutAlign="center center" fxHide fxShow.lg="true" fxShow.sm="false">
   <div fxFlex></div>
   <div class="case-container" fxLayout="row" fxLayoutAlign="center center">
-    <div class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }">
+    <div fxLayout="column" fxLayoutAlign="center center" class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }">
       <div
         cdkDrag
         class="draggable-item"
         *ngFor="let caseBackground of caseBackgrounds$ | async"
         [ngStyle]="{ 'z-index': caseBackground.index }"
+        [matMenuTriggerFor]="customPopover"
       >
         <img
           [src]="caseBackground.backgroundImgUrl"
@@ -24,6 +25,7 @@
         *ngFor="let caseSticker of caseStickers$ | async"
         [ngStyle]="{ 'z-index': caseSticker.index }"
         (click)="selectCaseSticker(caseSticker)"
+        [matMenuTriggerFor]="customPopover"
       >
         <img
           [src]="caseSticker.path"
@@ -122,6 +124,7 @@
         class="draggable-item background-container"
         *ngFor="let caseBackground of caseBackgrounds$ | async"
         [ngStyle]="{ 'z-index': caseBackground.index }"
+        [matMenuTriggerFor]="customPopover"
       >
         <img
           [src]="caseBackground.backgroundImgUrl"
