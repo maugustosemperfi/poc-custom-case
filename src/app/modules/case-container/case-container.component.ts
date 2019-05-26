@@ -16,8 +16,7 @@ import { CaseContainerState } from './store/state/case-container.state';
 @Component({
   selector: 'app-case-container',
   templateUrl: './case-container.component.html',
-  styleUrls: ['./case-container.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./case-container.component.scss']
 })
 export class CaseContainerComponent implements OnInit {
   @Select(CaseContainerState.caseTexts) caseTexts$: Observable<CaseText[]>;

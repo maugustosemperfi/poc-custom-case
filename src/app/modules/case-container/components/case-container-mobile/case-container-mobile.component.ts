@@ -1,5 +1,5 @@
-import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { DragDrop, DragRef, DragRefConfig } from '@angular/cdk/drag-drop';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -37,14 +37,20 @@ export class CaseContainerMobileComponent implements OnInit {
   @Select(CaseContainerState.caseBackgrounds) caseBackgrounds$: Observable<CaseBackground[]>;
   @Select(CaseContainerState.caseStickers) caseStickers$: Observable<CaseSticker[]>;
 
+  @ViewChild('stickerElement') stickerElement;
+
   public casePalette: CasePalette;
   public editingText: CaseText;
   public textColors: string[];
   public pinchDistance: string;
+  public dragging = false;
 
-  private draggableComponentRef: DragRef;
+  private draggableComponentRef: DragRef = null;
   private caseTextFonts: CaseTextFont[];
   private selectedComponent: CaseComponent;
+  private dragRefConfig: DragRefConfig = {
+    dragStartThreshold: 0
+  } as DragRefConfig;
   constructor(private store: Store, private bottomSheet: MatBottomSheet, private dragDrop: DragDrop) {}
 
   ngOnInit() {
@@ -96,12 +102,21 @@ export class CaseContainerMobileComponent implements OnInit {
     this.store.dispatch(new EditText(caseText));
   }
 
-  public componentPressed(event, htmlElement: HTMLElement) {
-    this.draggableComponentRef = this.dragDrop.createDrag(htmlElement);
+  public dragElement(htmlElement: HTMLElement) {
+    if (this.draggableComponentRef === null) {
+      this.draggableComponentRef = this.dragDrop.createDrag(htmlElement, this.dragRefConfig);
+      this.dragging = true;
+    }
   }
 
-  public componentPressedUp(event) {
-    this.draggableComponentRef.dispose();
+  public dragEnd() {
+
+    if (this.draggableComponentRef !== null) {
+      this.draggableComponentRef.dispose();
+      this.draggableComponentRef = null;
+      this.dragging = false;
+      console.log(this.dragging);
+    }
   }
 
   public selectedBackgroundFile(files) {

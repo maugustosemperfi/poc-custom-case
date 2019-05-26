@@ -9,7 +9,7 @@ import { CaseContainerModule } from './modules/case-container/case-container.mod
 
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
-    pan: { direction: Hammer.DIRECTION_ALL },
+    pan: { direction: Hammer.DIRECTION_ALL, enabled: true },
     press: { time: 50 },
     pinch: { enabled: true }
   } as any;
