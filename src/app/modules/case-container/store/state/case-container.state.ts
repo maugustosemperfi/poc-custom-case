@@ -169,13 +169,11 @@ export class CaseContainerState {
 
   @Action(AddCaseBackground)
   addCaseBackground(context: StateContext<CaseContainerStateModel>, action: AddCaseBackground) {
-    const allCaseBackgrounds = context.getState().caseBackgrounds;
+    let allCaseBackgrounds = context.getState().caseBackgrounds;
 
-    if (allCaseBackgrounds.length === 0) {
-      action.payload.index = CaseComponentIndexConstants.INDEX_BACKGROUND_MIN;
-    } else {
-      action.payload.index = allCaseBackgrounds.length + CaseComponentIndexConstants.INDEX_BACKGROUND_MIN;
-    }
+    allCaseBackgrounds = [];
+
+    action.payload.index = CaseComponentIndexConstants.INDEX_BACKGROUND_MIN;
 
     allCaseBackgrounds.push(action.payload);
 
