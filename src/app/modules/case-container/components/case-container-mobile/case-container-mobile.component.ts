@@ -25,6 +25,7 @@ import {
 import { CaseContainerState } from '../../store/state/case-container.state';
 import { MobilePaletteSheetComponent } from '../mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from '../mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
+import { CasePalette } from 'src/app/shared/models/case-palette.model';
 
 @Component({
   selector: 'app-case-container-mobile',
@@ -36,12 +37,27 @@ export class CaseContainerMobileComponent implements OnInit {
   @Select(CaseContainerState.caseBackgrounds) caseBackgrounds$: Observable<CaseBackground[]>;
   @Select(CaseContainerState.caseStickers) caseStickers$: Observable<CaseSticker[]>;
 
+  public casePalette: CasePalette;
+  public editingText: CaseText;
+  public textColors: string[];
+  public pinchDistance: string;
+
   private draggableComponentRef: DragRef;
   private caseTextFonts: CaseTextFont[];
   private selectedComponent: CaseComponent;
   constructor(private store: Store, private bottomSheet: MatBottomSheet, private dragDrop: DragDrop) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.select(CaseContainerState.casePalette).subscribe(casePalette => (this.casePalette = casePalette));
+    this.store.select(CaseContainerState.editedText).subscribe(editedText => {
+      this.editingText = editedText;
+    });
+    this.store.select(CaseContainerState.selectedCaseComponent).subscribe(selectedComponent => {
+      this.selectedComponent = selectedComponent;
+    });
+    this.caseTextFonts = CaseTextConstants.CASE_TEXT_FONTS;
+    this.textColors = CaseTextConstants.CASE_TEXT_COLORS;
+  }
 
   public selectCaseText(caseText: CaseText) {
     this.store.dispatch(new SelectCaseText(caseText));

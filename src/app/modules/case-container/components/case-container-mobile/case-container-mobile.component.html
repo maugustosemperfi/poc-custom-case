@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="case-actions">
+    <div class="case-actions actions-container">
       <div [hidden]="editingText !== null">
         <div class="case-options" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
           <button mat-icon-button (click)="resetCase()">
@@ -43,7 +43,7 @@
         </div>
       </div>
       <div [hidden]="editingText === null">
-        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-actions-top">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-actions-top actions-container">
           <div fxFlex="20"></div>
           <button mat-stroked-button (click)="updateCaseTextFont(editingText)">{{ editingText?.fontLabel }}</button>
           <div fxFlex="20" fxLayout="row" fxLayoutAlign="end center">
@@ -53,7 +53,7 @@
       </div>
     </div>
     <div [hidden]="editingText === null">
-      <div fxLayout="row" fxLayoutAlign="space-around center" class="text-actions-bottom">
+      <div fxLayout="row" fxLayoutAlign="space-around center" class="text-actions-bottom actions-container">
         <div
           *ngFor="let textColor of textColors"
           class="text-color-item"
@@ -112,3 +112,12 @@
     </div>
   </div>
 </div>
+
+<mat-menu #customPopover="matMenu">
+  <div fxLayout="row">
+    <button mat-icon-button (click)="increaseSize()"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button (click)="decreaseSize()"><mat-icon>remove</mat-icon></button>
+    <button mat-icon-button (click)="rotateLeft()"><mat-icon>rotate_left</mat-icon></button>
+    <button mat-icon-button (click)="rotateRight()"><mat-icon>rotate_right</mat-icon></button>
+  </div>
+</mat-menu>

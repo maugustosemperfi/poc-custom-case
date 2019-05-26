@@ -6,21 +6,12 @@
     background-color: #f2f2f2;
 
     .case-actions {
-      width: 100%;
-      position: absolute;
-      z-index: 10000;
     }
 
     .text-actions-top {
-      width: 100%;
-      position: absolute;
-      z-index: 10000;
     }
 
     .text-actions-bottom {
-      width: 100%;
-      z-index: 10000;
-      position: absolute;
       overflow-x: scroll;
       bottom: 0;
 
@@ -31,14 +22,16 @@
       }
     }
 
-    .text-done-container {
-      width: 100%;
-      height: 100%;
+    .actions-container {
       position: absolute;
       z-index: 10000;
+      width: 100%;
+    }
+
+    .text-done-container {
+      width: 100%;
 
       .text-slider-font {
-        z-index: 10000;
         position: absolute;
         height: 40%;
       }
