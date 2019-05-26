@@ -63,7 +63,7 @@
         ></div>
       </div>
     </div>
-    <div [hidden]="!dragging">
+    <div [hidden]="editingText !== null || !dragging">
       <div class="text-actions-bottom actions-container" fxLayout="row" fxLayoutAlign="center" [hidden]="!dragging">
         <button mat-icon-button>
           <mat-icon>delete_outline</mat-icon>
