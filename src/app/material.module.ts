@@ -46,9 +46,8 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule,
+  MatTooltipModule
 } from '@angular/material';
-import { MdePopoverModule } from '@material-extended/mde';
 
 @NgModule({
   exports: [
@@ -89,8 +88,7 @@ import { MdePopoverModule } from '@material-extended/mde';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatBottomSheetModule,
-    MdePopoverModule
+    MatBottomSheetModule
   ],
   providers: [{ provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false } }]
 })

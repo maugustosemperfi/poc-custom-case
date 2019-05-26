@@ -8,9 +8,10 @@ import { CaseTextModule } from '../case-text/case-text.module';
 import { CaseContainerComponent } from './case-container.component';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
+import { CaseContainerMobileComponent } from './components/case-container-mobile/case-container-mobile.component';
 
 @NgModule({
-  declarations: [CaseContainerComponent, MobileSticersBottomSheetComponent, MobilePaletteSheetComponent],
+  declarations: [CaseContainerComponent, MobileSticersBottomSheetComponent, MobilePaletteSheetComponent, CaseContainerMobileComponent],
   imports: [CommonModule, FlexLayoutModule, MaterialModule, CaseTextModule, CaseEditorModule, DragDropModule],
   exports: [CaseContainerComponent],
   entryComponents: [MobileSticersBottomSheetComponent, MobilePaletteSheetComponent]

@@ -1,0 +1,123 @@
+<div fxLayout="column" fxLayoutAlign="center center" class="phone-case-mobile-container">
+  <div
+    class="phone-case-mobile"
+    fxFlex="100"
+    [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }"
+  >
+    <div class="text-done-container" [hidden]="editingText === null" (click)="doneEditingText()">
+      <div fxLayout="column" fxLayoutAlign="center" style="height: 100%; z-index: 30">
+        <div fxLayout="column" fxLayoutAlign="center" class="text-slider-font">
+          <mat-slider
+            fxFlex="100"
+            [min]="12"
+            [max]="30"
+            [step]="1"
+            [thumbLabel]="false"
+            [value]="editingText?.fontSize"
+            (input)="fontSizeChanged($event, editingText)"
+            [vertical]="true"
+          >
+          </mat-slider>
+        </div>
+      </div>
+    </div>
+    <div class="case-actions actions-container">
+      <div [hidden]="editingText !== null">
+        <div class="case-options" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+          <button mat-icon-button (click)="resetCase()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openPaletteSheet()">
+            <mat-icon>palette</mat-icon>
+          </button>
+          <button mat-icon-button (click)="fileInput.click()">
+            <mat-icon>wallpaper</mat-icon>
+          </button>
+          <button mat-icon-button (click)="addNewText()">
+            <mat-icon>text_fields</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openStickersSheet()">
+            <mat-icon>tag_faces</mat-icon>
+          </button>
+          <input hidden type="file" accept="image/*" #fileInput (change)="selectedBackgroundFile(fileInput.files)" />
+        </div>
+      </div>
+      <div [hidden]="editingText === null">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-actions-top actions-container">
+          <div fxFlex="20"></div>
+          <button mat-stroked-button (click)="updateCaseTextFont(editingText)">{{ editingText?.fontLabel }}</button>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end center">
+            <button mat-icon-button (click)="doneEditingText()"><mat-icon>check</mat-icon></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [hidden]="editingText === null">
+      <div fxLayout="row" fxLayoutAlign="space-around center" class="text-actions-bottom actions-container">
+        <div
+          *ngFor="let textColor of textColors"
+          class="text-color-item"
+          [ngStyle]="{ 'background-color': 'rgb(' + textColor + ')' }"
+          (click)="editTextColor(textColor, editingText)"
+        ></div>
+      </div>
+    </div>
+    <div fxFlex="100" class="components-container" fxLayout="column" fxLayoutAlign="center center">
+      <div
+        #backgroundElement
+        cdkDrag
+        class="draggable-item background-container"
+        *ngFor="let caseBackground of caseBackgrounds$ | async"
+        [ngStyle]="{ 'z-index': caseBackground.index }"
+        [matMenuTriggerFor]="customPopover"
+      >
+        <img
+          [src]="caseBackground.backgroundImgUrl"
+          [ngStyle]="{
+            width: '100%',
+            transform: 'rotate(' + caseBackground.rotate + 'deg)'
+          }"
+          (click)="selectCaseBackground(caseBackground)"
+        />
+      </div>
+      <div
+        cdkDrag
+        class="draggable-item"
+        *ngFor="let caseSticker of caseStickers$ | async"
+        #stickerElement
+        [ngStyle]="{ 'z-index': caseSticker.index }"
+        [matMenuTriggerFor]="customPopover"
+        (click)="selectCaseSticker(caseSticker)"
+      >
+        <img
+          [src]="caseSticker.path"
+          [ngStyle]="{
+            height: caseSticker.height + 'px',
+            width: caseSticker.width + 'px',
+            transform: 'rotate(' + caseSticker.rotate + 'deg)'
+          }"
+        />
+      </div>
+      <div
+        #textElement
+        cdkDrag
+        class="draggable-item"
+        *ngFor="let caseText of caseTexts$ | async"
+        cdkDragBoundary=".phone-container"
+        [ngStyle]="{ 'z-index': caseText.index }"
+        (click)="updateCaseText(caseText)"
+      >
+        <app-case-text [caseText]="caseText"></app-case-text>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-menu #customPopover="matMenu">
+  <div fxLayout="row">
+    <button mat-icon-button (click)="increaseSize()"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button (click)="decreaseSize()"><mat-icon>remove</mat-icon></button>
+    <button mat-icon-button (click)="rotateLeft()"><mat-icon>rotate_left</mat-icon></button>
+    <button mat-icon-button (click)="rotateRight()"><mat-icon>rotate_right</mat-icon></button>
+  </div>
+</mat-menu>
