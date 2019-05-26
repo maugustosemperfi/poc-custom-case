@@ -10,7 +10,7 @@ import { CaseSticker } from 'src/app/shared/models/case-sticker.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 import { CaseTextFont } from 'src/app/shared/models/csae-text-font.model';
 import { CasePalette } from '../../shared/models/case-palette.model';
-import { UpdateCaseColor } from './store/actions/case-container.actions';
+import { UpdateCaseColor, SelectCaseText, SelectCaseBackground, SelectCaseSticker } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
 
 @Component({
@@ -44,6 +44,18 @@ export class CaseContainerComponent implements OnInit {
     });
     this.caseTextFonts = CaseTextConstants.CASE_TEXT_FONTS;
     this.textColors = CaseTextConstants.CASE_TEXT_COLORS;
+  }
+
+  public selectCaseText(caseText: CaseText) {
+    this.store.dispatch(new SelectCaseText(caseText));
+  }
+
+  public selectCaseBackground(caseBackground: CaseBackground) {
+    this.store.dispatch(new SelectCaseBackground(caseBackground));
+  }
+
+  public selectCaseSticker(caseSticker: CaseSticker) {
+    this.store.dispatch(new SelectCaseSticker(caseSticker));
   }
 
   private setInitialCaseColor() {

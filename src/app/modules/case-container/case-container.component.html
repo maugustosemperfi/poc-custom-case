@@ -53,12 +53,14 @@
     <app-case-editor></app-case-editor>
   </div>
 </div>
-
+<div fxShow.sm="true" fxShow.lg="false">
+  <app-case-container-mobile></app-case-container-mobile>
+</div>
 <mat-menu #customPopover="matMenu">
-  <div fxLayout="row">
+  <!-- <div fxLayout="row">
     <button mat-icon-button (click)="increaseSize()"><mat-icon>add</mat-icon></button>
     <button mat-icon-button (click)="decreaseSize()"><mat-icon>remove</mat-icon></button>
     <button mat-icon-button (click)="rotateLeft()"><mat-icon>rotate_left</mat-icon></button>
     <button mat-icon-button (click)="rotateRight()"><mat-icon>rotate_right</mat-icon></button>
-  </div>
+  </div> -->
 </mat-menu>
