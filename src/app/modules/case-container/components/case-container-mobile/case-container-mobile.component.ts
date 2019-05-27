@@ -20,7 +20,8 @@ import {
   SelectCaseText,
   UpdateCaseSticker,
   UpdateCaseText,
-  UpdateSelectedComponent
+  UpdateSelectedComponent,
+  UpdatePinchedComponent
 } from '../../store/actions/case-container.actions';
 import { CaseContainerState } from '../../store/state/case-container.state';
 import { MobilePaletteSheetComponent } from '../mobile-palette-sheet/mobile-palette-sheet.component';
@@ -350,5 +351,7 @@ export class CaseContainerMobileComponent implements OnInit {
     return { x: relativeX, y: relativeY };
   }
 
-  private updatePinchedComponent(caseComponent: CaseComponent) {}
+  private updatePinchedComponent(caseComponent: CaseComponent) {
+    this.store.dispatch(new UpdatePinchedComponent(caseComponent));
+  }
 }

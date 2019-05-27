@@ -23,7 +23,8 @@ import {
   UpdateCasePalette,
   UpdateCaseSticker,
   UpdateCaseText,
-  UpdateSelectedComponent
+  UpdateSelectedComponent,
+  UpdatePinchedComponent
 } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
@@ -333,6 +334,15 @@ export class CaseContainerState {
 
   @Action(UpdateSelectedComponent)
   updateSelectedComponent(context: StateContext<CaseContainerStateModel>, action: UpdateSelectedComponent) {
+    if (action.payload.discriminator === 'CASESTICKER') {
+      this.store.dispatch(new UpdateCaseSticker(action.payload as CaseSticker));
+    } else if (action.payload.discriminator === 'CASEBACKGROUND') {
+      this.store.dispatch(new UpdateCaseBackground(action.payload as CaseBackground));
+    }
+  }
+
+  @Action(UpdatePinchedComponent)
+  updatePinchedComponent(context: StateContext<CaseContainerStateModel>, action: UpdatePinchedComponent) {
     if (action.payload.discriminator === 'CASESTICKER') {
       this.store.dispatch(new UpdateCaseSticker(action.payload as CaseSticker));
     } else if (action.payload.discriminator === 'CASEBACKGROUND') {

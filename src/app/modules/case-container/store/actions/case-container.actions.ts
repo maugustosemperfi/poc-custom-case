@@ -92,3 +92,8 @@ export class UpdateSelectedComponent {
   static readonly type = '[Case Container] Update Selected Component';
   constructor(public readonly payload: CaseComponent) {}
 }
+
+export class UpdatePinchedComponent {
+  static readonly type = '[Case Container Mobile] Update Pinched Component';
+  constructor(public readonly payload: CaseComponent) {}
+}
