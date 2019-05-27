@@ -45,8 +45,7 @@ import {
   MatStepperModule,
   MatTableModule,
   MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule
+  MatToolbarModule
 } from '@angular/material';
 
 @NgModule({
@@ -87,7 +86,6 @@ import {
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule,
     MatBottomSheetModule
   ],
   providers: [{ provide: STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false } }]

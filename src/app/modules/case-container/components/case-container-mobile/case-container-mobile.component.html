@@ -71,6 +71,7 @@
       </div>
     </div>
     <div fxFlex="100" class="components-container" fxLayout="column" fxLayoutAlign="center center">
+      {{ test }}
       <div
         #backgroundElement
         cdkDrag
@@ -88,18 +89,16 @@
         />
       </div>
       <div
-        cdkDrag
         #stickerElement
         class="draggable-item"
         *ngFor="let caseSticker of caseStickers$ | async"
         [ngStyle]="{ 'z-index': caseSticker.index }"
         (pan)="dragElement(stickerElement)"
         (panEnd)="dragEnd()"
-        (pinchStart)="pinchStart()"
-        (pinchMove)="pinch()"
-        (pinchEnd)="pinchEnd()"
+        (pinchstart)="pinchStart($event, stickerElement, caseSticker)"
+        (pinch)="pinch($event, caseSticker)"
+        (pinchend)="pinchEnd(caseSticker)"
         (click)="selectCaseSticker(stickerElement, caseSticker)"
-        [cdkDragDisabled]="disableDragging"
       >
         <img
           [src]="caseSticker.path"

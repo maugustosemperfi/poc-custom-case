@@ -27,6 +27,12 @@ export class MobileSticersBottomSheetComponent implements OnInit {
     caseStickerDispatched.height = stickerImg.height;
     caseStickerDispatched.bWidth = stickerImg.width;
     caseStickerDispatched.bHeight = stickerImg.height;
+    caseStickerDispatched.currentX = 0;
+    caseStickerDispatched.currentY = 0;
+    caseStickerDispatched.currentZ = 1;
+    caseStickerDispatched.lastX = 0;
+    caseStickerDispatched.lastY = 0;
+    caseStickerDispatched.lastZ = 1;
     caseStickerDispatched.rotate = 0;
 
 

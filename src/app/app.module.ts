@@ -8,10 +8,10 @@ import { CoreModule } from './core/core.module';
 import { CaseContainerModule } from './modules/case-container/case-container.module';
 import { GestureConfig } from '@angular/material';
 
-export class CustomHammerConfig extends GestureConfig {
+export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
     pan: { direction: Hammer.DIRECTION_ALL },
-    pinch: { enabled: true }
+    pinch: { enable: true }
   } as any;
 }
 
