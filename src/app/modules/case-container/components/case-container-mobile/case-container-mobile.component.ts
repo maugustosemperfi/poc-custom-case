@@ -44,6 +44,7 @@ export class CaseContainerMobileComponent implements OnInit {
   public textColors: string[];
   public pinchDistance: string;
   public dragging = false;
+  public disableDragging = false;
 
   private draggableComponentRef: DragRef = null;
   private caseTextFonts: CaseTextFont[];
@@ -51,6 +52,7 @@ export class CaseContainerMobileComponent implements OnInit {
   private dragRefConfig: DragRefConfig = {
     dragStartThreshold: 0
   } as DragRefConfig;
+  pinchZoomOrigin: { x: number; y: number };
   constructor(private store: Store, private bottomSheet: MatBottomSheet, private dragDrop: DragDrop) {}
 
   ngOnInit() {
@@ -110,12 +112,10 @@ export class CaseContainerMobileComponent implements OnInit {
   }
 
   public dragEnd() {
-
     if (this.draggableComponentRef !== null) {
       this.draggableComponentRef.dispose();
       this.draggableComponentRef = null;
       this.dragging = false;
-      console.log(this.dragging);
     }
   }
 
@@ -165,6 +165,34 @@ export class CaseContainerMobileComponent implements OnInit {
     editedText.color = textColor;
 
     this.updateCaseText(editedText);
+  }
+
+  public pinchStart(eventPinchStart, htmlElement, caseComponent: CaseComponent) {
+    this.disableDragging = true;
+    const x = eventPinchStart.center.x;
+    const y = eventPinchStart.center.y;
+    this.pinchZoomOrigin = this.getRelativePosition(htmlElement, x, y, caseComponent);
+
+    this.updatePinchedComponent(caseComponent);
+  }
+
+  public pinch(eventPinch, caseComponent: CaseComponent) {
+    const d = this.scaleFrom(this.pinchZoomOrigin, caseComponent.lastZ, caseComponent.lastZ * eventPinch.scale, caseComponent);
+    caseComponent.currentX = d.x + caseComponent.lastX + eventPinch.deltaX;
+    caseComponent.currentY = d.y + caseComponent.lastY + eventPinch.deltaY;
+    // current.z = d.z + last.z;
+    caseComponent.height = caseComponent.bHeight * caseComponent.currentZ;
+    caseComponent.width = caseComponent.bWidth * caseComponent.currentZ;
+
+    this.updatePinchedComponent(caseComponent);
+  }
+
+  public pinchEnd(caseComponent: CaseComponent) {
+    caseComponent.lastX = caseComponent.currentX;
+    caseComponent.lastY = caseComponent.currentY;
+    caseComponent.lastZ = caseComponent.currentZ;
+    this.disableDragging = false;
+    this.updatePinchedComponent(caseComponent);
   }
 
   public onPinch(event, caseSticker: CaseSticker) {
@@ -270,4 +298,57 @@ export class CaseContainerMobileComponent implements OnInit {
   private addCaseBackground(caseBackground: CaseBackground) {
     this.store.dispatch(new AddCaseBackground(caseBackground));
   }
+
+  private scaleFrom(zoomOrigin, currentScale, newScale, caseComponent: CaseComponent) {
+    const currentShift = this.getCoordinateShiftDueToScale(caseComponent, currentScale);
+    const newShift = this.getCoordinateShiftDueToScale(caseComponent, newScale);
+    const zoomDistance = newScale - currentScale;
+
+    const shift = {
+      x: currentShift.x - newShift.x,
+      y: currentShift.y - newShift.y
+    };
+    const output = {
+      x: zoomOrigin.x * shift.x,
+      y: zoomOrigin.y * shift.y,
+      z: zoomDistance
+    };
+    return output;
+  }
+
+  private getCoordinateShiftDueToScale(caseComponent: CaseComponent, scale) {
+    const newWidth = scale * caseComponent.bWidth;
+    const newHeight = scale * caseComponent.bHeight;
+    const dx = (newWidth - caseComponent.bWidth) / 2;
+    const dy = (newHeight - caseComponent.bHeight) / 2;
+    return {
+      x: dx,
+      y: dy
+    };
+  }
+
+  private getCoords(elem) {
+    // crossbrowser version
+    const box = elem.getBoundingClientRect();
+    const body = document.body;
+    const docEl = document.documentElement;
+    const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    const scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+    const clientTop = docEl.clientTop || body.clientTop || 0;
+    const clientLeft = docEl.clientLeft || body.clientLeft || 0;
+    const top = box.top + scrollTop - clientTop;
+    const left = box.left + scrollLeft - clientLeft;
+    return { x: Math.round(left), y: Math.round(top) };
+  }
+
+  private getRelativePosition(element, x, y, caseComponent: CaseComponent) {
+    const domCoords = this.getCoords(element);
+    const elementX = x - domCoords.x;
+    const elementY = y - domCoords.y;
+    const relativeX = elementX / ((caseComponent.bWidth * caseComponent.currentZ) / 2) - 1;
+    const relativeY = elementY / ((caseComponent.bHeight * caseComponent.currentZ) / 2) - 1;
+    return { x: relativeX, y: relativeY };
+  }
+
+  private updatePinchedComponent(caseComponent: CaseComponent) {}
 }

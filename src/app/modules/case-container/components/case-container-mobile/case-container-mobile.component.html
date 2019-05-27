@@ -95,7 +95,11 @@
         [ngStyle]="{ 'z-index': caseSticker.index }"
         (pan)="dragElement(stickerElement)"
         (panEnd)="dragEnd()"
+        (pinchStart)="pinchStart()"
+        (pinchMove)="pinchMove()"
+        (pinchEnd)="pinchEnd()"
         (click)="selectCaseSticker(stickerElement, caseSticker)"
+        [cdkDragDisabled]="disableDragging"
       >
         <img
           [src]="caseSticker.path"
