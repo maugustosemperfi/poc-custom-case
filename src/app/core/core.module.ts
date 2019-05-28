@@ -11,6 +11,6 @@ import { CaseContainerState } from '../modules/case-container/store/state/case-c
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsRouterPluginModule.forRoot()
-  ]
+  ],
 })
 export class CoreModule {}

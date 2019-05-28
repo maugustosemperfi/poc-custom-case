@@ -3,12 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { CaseTextConstants } from 'src/app/constants/case-text.constants';
-import { AddCaseText, DeleteCaseText, OrderCaseText, UpdateCaseText } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import {
+  AddCaseText,
+  DeleteCaseText,
+  OrderCaseText,
+  UpdateCaseText
+} from 'src/app/modules/case-container/store/actions/case-container.actions';
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
 import { CaseTextSize } from 'src/app/shared/models/case-text-size.model';
 import { CaseText } from 'src/app/shared/models/case-text.model';
 import { CaseTextFont } from 'src/app/shared/models/csae-text-font.model';
+import { MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'app-case-text-editor',
@@ -20,12 +26,14 @@ export class CaseTextEditorComponent implements OnInit {
   public selectedComponent: CaseComponent;
   public fontSizes: CaseTextSize[];
   public fonts: CaseTextFont[];
+  public textColors: string[];
 
   constructor(private store: Store) {}
 
   ngOnInit() {
     this.fontSizes = CaseTextConstants.CASE_TEXT_SIZES;
     this.fonts = CaseTextConstants.CASE_TEXT_FONTS;
+    this.textColors = CaseTextConstants.CASE_TEXT_COLORS;
     this.store.select(CaseContainerState.selectedCaseComponent).subscribe(selectedComponent => {
       this.selectedComponent = selectedComponent;
     });
@@ -43,7 +51,7 @@ export class CaseTextEditorComponent implements OnInit {
         fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
         fontLabel: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL,
         font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT,
-        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX,
+        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX
       } as CaseText)
     );
   }
@@ -64,6 +72,12 @@ export class CaseTextEditorComponent implements OnInit {
     this.store.dispatch(new DeleteCaseText(caseText));
   }
 
+  public textColorChanged(color: string, caseText: CaseText) {
+    caseText.color = color;
+
+    this.dispatchUpdateAction(caseText);
+  }
+
   public drop(event: CdkDragDrop<CaseText[]>) {
     this.store.dispatch(new OrderCaseText({ previousIndex: event.previousIndex, newIndex: event.currentIndex }));
   }
@@ -74,9 +88,11 @@ export class CaseTextEditorComponent implements OnInit {
     this.store.dispatch(new UpdateCaseText(caseText));
   }
 
-  public fontValueChanged(eventInput: CaseTextFont, caseText: CaseText) {
-    caseText.font = eventInput.font;
-    caseText.fontLabel = eventInput.labelFont;
+  public fontValueChanged(eventInput: MatSelectChange, caseText: CaseText) {
+    const textFont = eventInput.value as CaseTextFont;
+    caseText.font = textFont.font;
+    caseText.fontLabel = textFont.labelFont;
+    console.log(textFont, caseText);
 
     this.dispatchUpdateAction(caseText);
   }

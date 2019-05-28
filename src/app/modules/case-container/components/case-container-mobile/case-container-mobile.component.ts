@@ -303,6 +303,10 @@ export class CaseContainerMobileComponent implements OnInit {
     this.updatePinchedComponent(caseComponent);
   }
 
+  public itemDropped(droppedEvent) {
+    console.log(droppedEvent);
+  }
+
   private updateSelectedComponent() {
     this.store.dispatch(new UpdateSelectedComponent(this.selectedComponent));
   }

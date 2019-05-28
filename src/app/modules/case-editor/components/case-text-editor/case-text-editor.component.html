@@ -6,13 +6,17 @@
           {{ caseText.text }}
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-form-field>
-        <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)" />
-      </mat-form-field>
       <div fxLayout="row wrap" fxLayoutAlign="start center">
         <mat-form-field appearance="outline" fxFlex="100">
+          <mat-label>Text</mat-label>
+          <input matInput [value]="caseText.text" [maxLength]="textMaxLength" (input)="textValueChanges($event, caseText)" />
+        </mat-form-field>
+        <mat-form-field appearance="outline" fxFlex="100">
           <mat-label>Text font</mat-label>
-          <mat-select [value]="caseText.font" (selectionChange)="fontValueChanged($event, caseText)">
+          <mat-select
+            [value]="{labelFont: caseText.fontLabel, font: caseText.font}"
+            (selectionChange)="fontValueChanged($event, caseText)"
+          >
             <mat-option *ngFor="let font of fonts" [value]="font">
               <span [ngStyle]="{ 'font-family': font.font }">{{ font.labelFont }}</span>
             </mat-option>
@@ -26,13 +30,21 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-form-field fxFlex="40" appearance="outline">
-          <mat-label>Rotate</mat-label>
-          <mat-icon matPrefix>rotate_right</mat-icon>
-          <input matInput type="number" [value]="caseText.rotate" (input)="rotateChanged($event, caseText)" />
-        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-form-field fxFlex="40" appearance="outline">
+            <mat-label>Rotate</mat-label>
+            <mat-icon matPrefix>rotate_right</mat-icon>
+            <input matInput type="number" [value]="caseText.rotate" (input)="rotateChanged($event, caseText)" />
+          </mat-form-field>
+        </div>
+        <div fxLayout="row wrap" fxLayoutAlign="space-around center" fxFlex="100">
+          <div
+            *ngFor="let textColor of textColors"
+            class="text-color-item"
+            [ngStyle]="{ 'background-color': 'rgb(' + textColor + ')' }"
+            (click)="textColorChanged(textColor, caseText)"
+          ></div>
+        </div>
       </div>
       <mat-action-row>
         <button mat-icon-button color="warn" (click)="deleteText(caseText)">

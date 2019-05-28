@@ -64,7 +64,7 @@
       </div>
     </div>
     <div [hidden]="editingText !== null || !dragging">
-      <div cdkDropList class="text-actions-bottom actions-container" fxLayout="row" fxLayoutAlign="center" [hidden]="!dragging">
+      <div class="text-actions-bottom actions-container" fxLayout="row" fxLayoutAlign="center" [hidden]="!dragging">
         <button mat-icon-button>
           <mat-icon>delete_outline</mat-icon>
         </button>
@@ -95,6 +95,7 @@
           (click)="selectCaseBackground(caseBackground)"
         />
       </div>
+
       <div
         #stickerElement
         cdkDrag
@@ -119,13 +120,14 @@
           }"
         />
       </div>
+
       <div
         #textElement
         cdkDrag
         class="draggable-item"
         *ngFor="let caseText of caseTexts$ | async"
         cdkDragBoundary=".phone-container"
-        [ngStyle]="{ 'z-index': caseText.index, height: caseText.height + 'px', width: caseText.width + 'px' }"
+        [ngStyle]="{ 'z-index': caseText.index }"
         (click)="updateCaseText(caseText)"
         (pan)="dragElement(textElement)"
         (panEnd)="dragEnd()"

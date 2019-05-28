@@ -1,4 +1,10 @@
 .case-text-editor-container {
   padding-bottom: 16px;
   width: 100%;
+
+  .text-color-item {
+    border-radius: 30px;
+    width: 30px;
+    height: 30px;
+  }
 }
