@@ -97,7 +97,8 @@ export class CaseContainerMobileComponent implements OnInit {
         fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
         font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT,
         fontLabel: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL,
-        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX
+        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX,
+        discriminator: 'CASETEXT'
       } as CaseText)
     );
   }
@@ -185,8 +186,6 @@ export class CaseContainerMobileComponent implements OnInit {
     caseComponent.currentZ = d.z + caseComponent.lastZ;
     caseComponent.height = caseComponent.bHeight * caseComponent.currentZ;
     caseComponent.width = caseComponent.bWidth * caseComponent.currentZ;
-
-    console.log(caseComponent.width, caseComponent.height);
 
     this.updatePinchedComponent(caseComponent);
   }
@@ -279,8 +278,29 @@ export class CaseContainerMobileComponent implements OnInit {
     this.updateSelectedComponent();
   }
 
-  public componentDropped(eventDropped) {
-    console.log(eventDropped, this.selectedComponent);
+  public rotateElement(rotateEvent, caseComponent: CaseComponent) {
+    if (caseComponent.lastRotate && rotateEvent.velocity !== 0) {
+      let rotation;
+      if (rotateEvent.velocity > 0) {
+        if (rotateEvent.rotation < 0) {
+          rotation = rotateEvent.rotation * -1;
+        } else {
+          rotation = rotateEvent.rotation;
+        }
+        caseComponent.rotate = caseComponent.lastRotate + rotation;
+      } else {
+        if (rotateEvent.rotation > 0) {
+          rotation = rotateEvent.rotation * -1;
+        } else {
+          rotation = rotateEvent.rotation;
+        }
+
+        caseComponent.rotate = caseComponent.lastRotate - rotation;
+      }
+    }
+    caseComponent.lastRotate = rotateEvent.rotation;
+
+    this.updatePinchedComponent(caseComponent);
   }
 
   private updateSelectedComponent() {

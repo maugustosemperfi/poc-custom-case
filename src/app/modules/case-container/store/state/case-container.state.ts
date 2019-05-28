@@ -372,6 +372,8 @@ export class CaseContainerState {
       this.store.dispatch(new UpdateCaseSticker(action.payload as CaseSticker));
     } else if (action.payload.discriminator === 'CASEBACKGROUND') {
       this.store.dispatch(new UpdateCaseBackground(action.payload as CaseBackground));
+    } else if (action.payload.discriminator === 'CASETEXT') {
+      this.store.dispatch(new UpdateCaseText(action.payload as CaseText));
     }
   }
 }

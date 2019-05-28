@@ -11,7 +11,8 @@ import { GestureConfig } from '@angular/material';
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
     pan: { direction: Hammer.DIRECTION_ALL },
-    pinch: { enable: true }
+    pinch: { enable: true },
+    rotate: { enable: true }
   } as any;
 }
 

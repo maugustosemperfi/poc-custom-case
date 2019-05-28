@@ -3,6 +3,7 @@ export interface CaseComponent {
   id: string;
   index: number;
   rotate: number;
+  lastRotate: number;
   excluded: boolean;
   selected: boolean;
   currentX: number;

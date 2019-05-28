@@ -83,6 +83,7 @@
         (pinchstart)="pinchStart($event, backgroundElement, caseBackground)"
         (pinch)="pinch($event, caseBackground)"
         (pinchend)="pinchEnd(caseBackground)"
+        (rotatemove)="rotateElement($event, caseBackground)"
       >
         <img
           [src]="caseBackground.backgroundImgUrl"
@@ -107,6 +108,7 @@
         (pinch)="pinch($event, caseSticker)"
         (pinchend)="pinchEnd(caseSticker)"
         (click)="selectCaseSticker(stickerElement, caseSticker)"
+        (rotatemove)="rotateElement($event, caseSticker)"
       >
         <img
           [src]="caseSticker.path"
@@ -119,6 +121,7 @@
       </div>
       <div
         #textElement
+        cdkDrag
         class="draggable-item"
         *ngFor="let caseText of caseTexts$ | async"
         cdkDragBoundary=".phone-container"
@@ -130,6 +133,7 @@
         (pinch)="pinch($event, caseText)"
         (pinchend)="pinchEnd(caseText)"
         (click)="selectCaseSticker(textElement, caseText)"
+        (rotatemove)="rotateElement($event, caseText)"
       >
         <app-case-text [caseText]="caseText"></app-case-text>
       </div>
