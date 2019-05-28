@@ -39,6 +39,9 @@
           <button mat-icon-button (click)="openStickersSheet()">
             <mat-icon>tag_faces</mat-icon>
           </button>
+          <button mat-icon-button (click)="exportToImage(componentsContainer)">
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
           <input hidden type="file" accept="image/*" #fileInput (change)="selectedBackgroundFile(fileInput.files)" />
         </div>
       </div>
@@ -70,7 +73,7 @@
         </button>
       </div>
     </div>
-    <div fxFlex="100" class="components-container" fxLayout="column" fxLayoutAlign="center center">
+    <div fxFlex="100" class="components-container" fxLayout="column" fxLayoutAlign="center center" #componentsContainer>
       <div
         #backgroundElement
         cdkDrag
