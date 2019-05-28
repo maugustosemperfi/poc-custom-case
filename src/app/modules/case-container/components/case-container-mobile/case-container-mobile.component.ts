@@ -108,7 +108,7 @@ export class CaseContainerMobileComponent implements OnInit {
 
   public dragElement(htmlElement: HTMLElement) {
     if (this.draggableComponentRef === null) {
-      // this.draggableComponentRef = this.dragDrop.createDrag(htmlElement, this.dragRefConfig);
+      this.draggableComponentRef = this.dragDrop.createDrag(htmlElement, this.dragRefConfig);
       this.dragging = true;
     }
   }
@@ -179,7 +179,6 @@ export class CaseContainerMobileComponent implements OnInit {
   }
 
   public pinch(eventPinch, caseComponent: CaseComponent) {
-    this.test = eventPinch.distance;
     const d = this.scaleFrom(this.pinchZoomOrigin, caseComponent.lastZ, caseComponent.lastZ * eventPinch.scale, caseComponent);
     caseComponent.currentX = d.x + caseComponent.lastX + eventPinch.deltaX;
     caseComponent.currentY = d.y + caseComponent.lastY + eventPinch.deltaY;
