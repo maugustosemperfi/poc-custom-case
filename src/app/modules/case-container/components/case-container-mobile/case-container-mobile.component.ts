@@ -277,6 +277,10 @@ export class CaseContainerMobileComponent implements OnInit {
     this.updateSelectedComponent();
   }
 
+  public componentDropped(eventDropped) {
+    console.log(eventDropped, this.selectedComponent);
+  }
+
   private updateSelectedComponent() {
     this.store.dispatch(new UpdateSelectedComponent(this.selectedComponent));
   }

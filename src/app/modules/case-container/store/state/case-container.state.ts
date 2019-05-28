@@ -100,6 +100,19 @@ export class CaseContainerState {
   @Action(AddCaseText)
   AddCaseText(context: StateContext<CaseContainerStateModel>, action: AddCaseText) {
     const updatedCaseTexts = context.getState().caseTexts;
+    const caseText = action.payload;
+
+    caseText.width = 62.22;
+    caseText.height = 24;
+    caseText.bWidth = 62.22;
+    caseText.bHeight = 24;
+    caseText.currentX = 0;
+    caseText.currentY = 0;
+    caseText.currentZ = 1;
+    caseText.lastX = 0;
+    caseText.lastY = 0;
+    caseText.lastZ = 1;
+    caseText.rotate = 0;
 
     if (updatedCaseTexts.length === 0) {
       action.payload.index = CaseComponentIndexConstants.INDEX_TEXT_MIN;
