@@ -102,10 +102,10 @@ export class CaseContainerState {
     const updatedCaseTexts = context.getState().caseTexts;
     const caseText = action.payload;
 
-    caseText.width = 62.22;
-    caseText.height = 24;
-    caseText.bWidth = 62.22;
-    caseText.bHeight = 24;
+    caseText.width = 100;
+    caseText.height = 100;
+    caseText.bWidth = 100;
+    caseText.bHeight = 100;
     caseText.currentX = 0;
     caseText.currentY = 0;
     caseText.currentZ = 1;
@@ -184,6 +184,18 @@ export class CaseContainerState {
   @Action(AddCaseBackground)
   addCaseBackground(context: StateContext<CaseContainerStateModel>, action: AddCaseBackground) {
     let allCaseBackgrounds = context.getState().caseBackgrounds;
+
+    const caseBackground = action.payload;
+
+    caseBackground.bWidth = caseBackground.width;
+    caseBackground.bHeight = caseBackground.height;
+    caseBackground.currentX = 0;
+    caseBackground.currentY = 0;
+    caseBackground.currentZ = 1;
+    caseBackground.lastX = 0;
+    caseBackground.lastY = 0;
+    caseBackground.lastZ = 1;
+    caseBackground.rotate = 0;
 
     allCaseBackgrounds = [];
 

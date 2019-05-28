@@ -186,6 +186,8 @@ export class CaseContainerMobileComponent implements OnInit {
     caseComponent.height = caseComponent.bHeight * caseComponent.currentZ;
     caseComponent.width = caseComponent.bWidth * caseComponent.currentZ;
 
+    console.log(caseComponent.width, caseComponent.height);
+
     this.updatePinchedComponent(caseComponent);
   }
 
@@ -294,7 +296,8 @@ export class CaseContainerMobileComponent implements OnInit {
         id: CaseUtilsFunctions.generateComponentId(),
         backgroundImgUrl: result,
         width: image.width,
-        height: image.height
+        height: image.height,
+        discriminator: 'CASEBACKGROUND'
       } as CaseBackground;
 
       this.addCaseBackground(caseBackground);
