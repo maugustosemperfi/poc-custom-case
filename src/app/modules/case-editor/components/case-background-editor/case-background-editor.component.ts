@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AddCaseBackground, DeleteCaseBackground, UpdateCaseBackground } from 'src/app/modules/case-container/store/actions/case-container.actions';
+import {
+  AddCaseBackground,
+  DeleteCaseBackground,
+  UpdateCaseBackground
+} from 'src/app/modules/case-container/store/actions/case-container.actions';
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CaseBackground } from 'src/app/shared/models/case-background.model';
 import { CaseComponent } from 'src/app/shared/models/case-compoent.model';
@@ -78,11 +82,20 @@ export class CaseBackgroundEditorComponent implements OnInit {
     image.src = result as string;
 
     image.onload = () => {
+      let imgWidth;
+      let imgHeight;
+      if (image.width > 350) {
+        imgHeight = image.height / (image.width / 350);
+        imgWidth = 350;
+      } else {
+        imgWidth = image.width;
+        imgHeight = image.height;
+      }
       const caseBackground = {
         id: CaseUtilsFunctions.generateComponentId(),
         backgroundImgUrl: result,
-        width: image.width,
-        height: image.height,
+        width: imgWidth,
+        height: imgHeight,
         rotate: 0
       } as CaseBackground;
 

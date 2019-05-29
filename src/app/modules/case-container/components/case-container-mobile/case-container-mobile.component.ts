@@ -1,5 +1,5 @@
 import { DragDrop, DragRef, DragRefConfig } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { MatBottomSheet } from '@angular/material';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -31,7 +31,7 @@ import { CasePalette } from 'src/app/shared/models/case-palette.model';
 @Component({
   selector: 'app-case-container-mobile',
   templateUrl: './case-container-mobile.component.html',
-  styleUrls: ['./case-container-mobile.component.scss'],
+  styleUrls: ['./case-container-mobile.component.scss']
 })
 export class CaseContainerMobileComponent implements OnInit {
   @Select(CaseContainerState.caseTexts) caseTexts$: Observable<CaseText[]>;
@@ -39,6 +39,7 @@ export class CaseContainerMobileComponent implements OnInit {
   @Select(CaseContainerState.caseStickers) caseStickers$: Observable<CaseSticker[]>;
 
   @ViewChild('stickerElement') stickerElement;
+  @ViewChild('componentsContainer') componentsContainer: ElementRef;
 
   public casePalette: CasePalette;
   public editingText: CaseText;
@@ -303,9 +304,7 @@ export class CaseContainerMobileComponent implements OnInit {
     this.updatePinchedComponent(caseComponent);
   }
 
-  public itemDropped(droppedEvent) {
-    console.log(droppedEvent);
-  }
+  public itemDropped(droppedEvent) {}
 
   private updateSelectedComponent() {
     this.store.dispatch(new UpdateSelectedComponent(this.selectedComponent));
@@ -316,11 +315,20 @@ export class CaseContainerMobileComponent implements OnInit {
     image.src = result as string;
 
     image.onload = () => {
+      let imgWidth;
+      let imgHeight;
+      if (image.width > this.componentsContainer.nativeElement.offsetWidth) {
+        imgHeight = image.height / (image.width / this.componentsContainer.nativeElement.offsetWidth);
+        imgWidth = this.componentsContainer.nativeElement.offsetWidth;
+      } else {
+        imgWidth = image.width;
+        imgHeight = image.height;
+      }
       const caseBackground = {
         id: CaseUtilsFunctions.generateComponentId(),
         backgroundImgUrl: result,
-        width: image.width,
-        height: image.height,
+        width: imgWidth,
+        height: imgHeight,
         discriminator: 'CASEBACKGROUND'
       } as CaseBackground;
 
