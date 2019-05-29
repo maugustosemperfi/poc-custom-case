@@ -9,7 +9,7 @@
 </div>
 <div fxLayout="row wrap">
   <p>Opacity</p>
-  <mat-slider
+  <!-- <mat-slider
     fxFlex="100"
     [min]="10"
     [max]="100"
@@ -17,5 +17,6 @@
     [thumbLabel]="true"
     [value]="casePalette.opacity * 100"
     (input)="opacityChanged($event)"
-  ></mat-slider>
+  ></mat-slider> -->
+  <ng5-slider fxFlex="100" [value]="casePalette.opacity * 100" [options]="options" (userChange)="opacityChanged($event)"></ng5-slider>
 </div>

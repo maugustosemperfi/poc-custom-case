@@ -1,5 +1,5 @@
-import { DragDrop, DragRef } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { DragDrop, DragRef, DragRefConfig } from '@angular/cdk/drag-drop';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { MatBottomSheet } from '@angular/material';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -20,12 +20,14 @@ import {
   SelectCaseText,
   UpdateCaseSticker,
   UpdateCaseText,
-  UpdateSelectedComponent
+  UpdateSelectedComponent,
+  UpdatePinchedComponent
 } from '../../store/actions/case-container.actions';
 import { CaseContainerState } from '../../store/state/case-container.state';
 import { MobilePaletteSheetComponent } from '../mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from '../mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
+import { Options } from 'ng5-slider';
 
 @Component({
   selector: 'app-case-container-mobile',
@@ -37,14 +39,34 @@ export class CaseContainerMobileComponent implements OnInit {
   @Select(CaseContainerState.caseBackgrounds) caseBackgrounds$: Observable<CaseBackground[]>;
   @Select(CaseContainerState.caseStickers) caseStickers$: Observable<CaseSticker[]>;
 
+  @ViewChild('stickerElement') stickerElement;
+  @ViewChild('componentsContainer') componentsContainer: ElementRef;
+
   public casePalette: CasePalette;
   public editingText: CaseText;
   public textColors: string[];
   public pinchDistance: string;
+  public dragging = false;
+  public disableDragging = false;
+  public test;
 
-  private draggableComponentRef: DragRef;
+  public options: Options = {
+    vertical: true,
+    floor: 12,
+    ceil: 30,
+    hideLimitLabels: true,
+    hidePointerLabels: true,
+    showTicks: false,
+    showTicksValues: false
+  };
+
+  private draggableComponentRef: DragRef = null;
   private caseTextFonts: CaseTextFont[];
   private selectedComponent: CaseComponent;
+  private dragRefConfig: DragRefConfig = {
+    dragStartThreshold: 0
+  } as DragRefConfig;
+  pinchZoomOrigin: { x: number; y: number };
   constructor(private store: Store, private bottomSheet: MatBottomSheet, private dragDrop: DragDrop) {}
 
   ngOnInit() {
@@ -87,21 +109,32 @@ export class CaseContainerMobileComponent implements OnInit {
         fontSize: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_SIZE,
         font: CaseTextConstants.CASE_TEXT_DEFAULT_FONT,
         fontLabel: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_LABEL,
-        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX
+        fontIndex: CaseTextConstants.CASE_TEXT_DEFAULT_FONT_INDEX,
+        discriminator: 'CASETEXT'
       } as CaseText)
     );
   }
 
   public updateCaseText(caseText: CaseText) {
     this.store.dispatch(new EditText(caseText));
+    this.selectCaseText(caseText);
   }
 
-  public componentPressed(event, htmlElement: HTMLElement) {
-    this.draggableComponentRef = this.dragDrop.createDrag(htmlElement);
+  public dragElement(htmlElement: HTMLElement, caseComponent: CaseComponent) {
+    if (this.draggableComponentRef === null) {
+      this.draggableComponentRef = this.dragDrop.createDrag(htmlElement, this.dragRefConfig);
+      this.dragging = true;
+    }
+
+    this.updatePinchedComponent(caseComponent);
   }
 
-  public componentPressedUp(event) {
-    this.draggableComponentRef.dispose();
+  public dragEnd() {
+    if (this.draggableComponentRef !== null) {
+      this.draggableComponentRef.dispose();
+      this.draggableComponentRef = null;
+      this.dragging = false;
+    }
   }
 
   public selectedBackgroundFile(files) {
@@ -150,6 +183,34 @@ export class CaseContainerMobileComponent implements OnInit {
     editedText.color = textColor;
 
     this.updateCaseText(editedText);
+  }
+
+  public pinchStart(eventPinchStart, htmlElement, caseComponent: CaseComponent) {
+    this.disableDragging = true;
+    const x = eventPinchStart.center.x;
+    const y = eventPinchStart.center.y;
+    this.pinchZoomOrigin = this.getRelativePosition(htmlElement, x, y, caseComponent);
+
+    this.updatePinchedComponent(caseComponent);
+  }
+
+  public pinch(eventPinch, caseComponent: CaseComponent) {
+    const d = this.scaleFrom(this.pinchZoomOrigin, caseComponent.lastZ, caseComponent.lastZ * eventPinch.scale, caseComponent);
+    caseComponent.currentX = d.x + caseComponent.lastX + eventPinch.deltaX;
+    caseComponent.currentY = d.y + caseComponent.lastY + eventPinch.deltaY;
+    caseComponent.currentZ = d.z + caseComponent.lastZ;
+    caseComponent.height = caseComponent.bHeight * caseComponent.currentZ;
+    caseComponent.width = caseComponent.bWidth * caseComponent.currentZ;
+
+    this.updatePinchedComponent(caseComponent);
+  }
+
+  public pinchEnd(caseComponent: CaseComponent) {
+    caseComponent.lastX = caseComponent.currentX;
+    caseComponent.lastY = caseComponent.currentY;
+    caseComponent.lastZ = caseComponent.currentZ;
+    this.disableDragging = false;
+    this.updatePinchedComponent(caseComponent);
   }
 
   public onPinch(event, caseSticker: CaseSticker) {
@@ -232,6 +293,33 @@ export class CaseContainerMobileComponent implements OnInit {
     this.updateSelectedComponent();
   }
 
+  public rotateElement(rotateEvent, caseComponent: CaseComponent) {
+    if (caseComponent.lastRotate && rotateEvent.velocity !== 0) {
+      let rotation;
+      if (rotateEvent.velocity > 0) {
+        if (rotateEvent.rotation < 0) {
+          rotation = rotateEvent.rotation * -1;
+        } else {
+          rotation = rotateEvent.rotation;
+        }
+        caseComponent.rotate = caseComponent.lastRotate + rotation;
+      } else {
+        if (rotateEvent.rotation > 0) {
+          rotation = rotateEvent.rotation * -1;
+        } else {
+          rotation = rotateEvent.rotation;
+        }
+
+        caseComponent.rotate = caseComponent.lastRotate - rotation;
+      }
+    }
+    caseComponent.lastRotate = rotateEvent.rotation;
+
+    this.updatePinchedComponent(caseComponent);
+  }
+
+  public itemDropped(droppedEvent) {}
+
   private updateSelectedComponent() {
     this.store.dispatch(new UpdateSelectedComponent(this.selectedComponent));
   }
@@ -241,11 +329,21 @@ export class CaseContainerMobileComponent implements OnInit {
     image.src = result as string;
 
     image.onload = () => {
+      let imgWidth;
+      let imgHeight;
+      if (image.width > this.componentsContainer.nativeElement.offsetWidth) {
+        imgHeight = image.height / (image.width / this.componentsContainer.nativeElement.offsetWidth);
+        imgWidth = this.componentsContainer.nativeElement.offsetWidth;
+      } else {
+        imgWidth = image.width;
+        imgHeight = image.height;
+      }
       const caseBackground = {
         id: CaseUtilsFunctions.generateComponentId(),
         backgroundImgUrl: result,
-        width: image.width,
-        height: image.height
+        width: imgWidth,
+        height: imgHeight,
+        discriminator: 'CASEBACKGROUND'
       } as CaseBackground;
 
       this.addCaseBackground(caseBackground);
@@ -254,5 +352,64 @@ export class CaseContainerMobileComponent implements OnInit {
 
   private addCaseBackground(caseBackground: CaseBackground) {
     this.store.dispatch(new AddCaseBackground(caseBackground));
+  }
+
+  private scaleFrom(zoomOrigin, currentScale, newScale, caseComponent: CaseComponent) {
+    const currentShift = this.getCoordinateShiftDueToScale(caseComponent, currentScale);
+    const newShift = this.getCoordinateShiftDueToScale(caseComponent, newScale);
+    const zoomDistance = newScale - currentScale;
+
+    const shift = {
+      x: currentShift.x - newShift.x,
+      y: currentShift.y - newShift.y
+    };
+    const output = {
+      x: zoomOrigin.x * shift.x,
+      y: zoomOrigin.y * shift.y,
+      z: zoomDistance
+    };
+    return output;
+  }
+
+  private getCoordinateShiftDueToScale(caseComponent: CaseComponent, scale) {
+    const newWidth = scale * caseComponent.bWidth;
+    const newHeight = scale * caseComponent.bHeight;
+    const dx = (newWidth - caseComponent.bWidth) / 2;
+    const dy = (newHeight - caseComponent.bHeight) / 2;
+    return {
+      x: dx,
+      y: dy
+    };
+  }
+
+  private getCoords(elem) {
+    // crossbrowser version
+    const box = elem.getBoundingClientRect();
+    const body = document.body;
+    const docEl = document.documentElement;
+    const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+    const scrollLeft = window.pageXOffset || docEl.scrollLeft || body.scrollLeft;
+    const clientTop = docEl.clientTop || body.clientTop || 0;
+    const clientLeft = docEl.clientLeft || body.clientLeft || 0;
+    const top = box.top + scrollTop - clientTop;
+    const left = box.left + scrollLeft - clientLeft;
+    return { x: Math.round(left), y: Math.round(top) };
+  }
+
+  private getRelativePosition(element, x, y, caseComponent: CaseComponent) {
+    const domCoords = this.getCoords(element);
+    const elementX = x - domCoords.x;
+    const elementY = y - domCoords.y;
+    const relativeX = elementX / ((caseComponent.bWidth * caseComponent.currentZ) / 2) - 1;
+    const relativeY = elementY / ((caseComponent.bHeight * caseComponent.currentZ) / 2) - 1;
+    return { x: relativeX, y: relativeY };
+  }
+
+  private updatePinchedComponent(caseComponent: CaseComponent) {
+    this.store.dispatch(new UpdatePinchedComponent(caseComponent));
+  }
+
+  public exportToImage(htmlElement: HTMLElement) {
+    CaseUtilsFunctions.exportCase(htmlElement, true);
   }
 }

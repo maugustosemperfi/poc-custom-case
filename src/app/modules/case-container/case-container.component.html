@@ -1,7 +1,7 @@
 <div class="app-container" fxLayout="row" fxLayoutAlign="center center" fxHide fxShow.lg="true" fxShow.sm="false">
   <div fxFlex></div>
   <div class="case-container" fxLayout="row" fxLayoutAlign="center center">
-    <div fxLayout="column" fxLayoutAlign="center center" class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }">
+    <div #phoneContainer fxLayout="column" fxLayoutAlign="center center" class="phone-container" [ngStyle]="{ 'background-color': 'rgba(' + casePalette.color + ',' + casePalette.opacity + ')' }">
       <div
         cdkDrag
         class="draggable-item"
@@ -48,12 +48,14 @@
       </div>
     </div>
   </div>
-  <div fxFlex></div>
+  <div fxFlex class="download-container full-height">
+    <button mat-mini-fab color="primary" class="download-button" (click)="downloadCase(phoneContainer)"><mat-icon>archive</mat-icon></button>
+  </div>
   <div class="case-editor-container">
     <app-case-editor></app-case-editor>
   </div>
 </div>
-<div fxShow.sm="true" fxShow.lg="false">
+<div class="full-height" fxShow.sm="true" fxShow.lg="false">
   <app-case-container-mobile></app-case-container-mobile>
 </div>
 <mat-menu #customPopover="matMenu">

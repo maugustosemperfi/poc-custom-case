@@ -6,18 +6,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { CaseContainerModule } from './modules/case-container/case-container.module';
+import { GestureConfig } from '@angular/material';
+import { Ng5SliderModule } from 'ng5-slider';
 
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {
     pan: { direction: Hammer.DIRECTION_ALL },
-    press: { time: 50 },
-    pinch: { enabled: true }
+    pinch: { enable: true },
+    rotate: { enable: true }
   } as any;
 }
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserAnimationsModule, BrowserModule, CoreModule, CaseContainerModule, AppRoutingModule],
+  imports: [BrowserModule, BrowserAnimationsModule, CoreModule, CaseContainerModule, AppRoutingModule],
   providers: [
     {
       provide: HAMMER_GESTURE_CONFIG,

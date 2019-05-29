@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
 import { UpdateCasePalette } from '../../store/actions/case-container.actions';
 import { CaseContainerState } from '../../store/state/case-container.state';
+import { Options } from 'ng5-slider';
 
 @Component({
   selector: 'app-mobile-palette-sheet',
@@ -11,6 +12,15 @@ import { CaseContainerState } from '../../store/state/case-container.state';
 })
 export class MobilePaletteSheetComponent implements OnInit {
   public casePalette: CasePalette;
+
+  public options: Options = {
+    floor: 30,
+    ceil: 100,
+    hideLimitLabels: true,
+    hidePointerLabels: true,
+    showTicks: false,
+    showTicksValues: false,
+  };
 
   public colorPalettes = [
     '160, 234, 222',

@@ -23,7 +23,8 @@ import {
   UpdateCasePalette,
   UpdateCaseSticker,
   UpdateCaseText,
-  UpdateSelectedComponent
+  UpdateSelectedComponent,
+  UpdatePinchedComponent
 } from '../actions/case-container.actions';
 
 export interface CaseContainerStateModel {
@@ -34,6 +35,7 @@ export interface CaseContainerStateModel {
   caseComponentSelected: CaseComponent;
   indexStepper: number;
   editedText: CaseText;
+  lastIndex: number;
 }
 
 const emptyState: CaseContainerStateModel = {
@@ -46,7 +48,8 @@ const emptyState: CaseContainerStateModel = {
   caseStickers: [],
   caseComponentSelected: null,
   indexStepper: null,
-  editedText: null
+  editedText: null,
+  lastIndex: CaseComponentIndexConstants.INDEX_STICKER_MIN
 };
 
 @State<CaseContainerStateModel>({
@@ -100,16 +103,19 @@ export class CaseContainerState {
   AddCaseText(context: StateContext<CaseContainerStateModel>, action: AddCaseText) {
     const updatedCaseTexts = context.getState().caseTexts;
 
-    if (updatedCaseTexts.length === 0) {
-      action.payload.index = CaseComponentIndexConstants.INDEX_TEXT_MIN;
-    } else {
-      action.payload.index = updatedCaseTexts.length + CaseComponentIndexConstants.INDEX_TEXT_MIN;
-    }
+    // if (updatedCaseTexts.length === 0) {
+    //   action.payload.index = CaseComponentIndexConstants.INDEX_TEXT_MIN;
+    // } else {
+    //   action.payload.index = updatedCaseTexts.length + CaseComponentIndexConstants.INDEX_TEXT_MIN;
+    // }
+
+    action.payload.index = context.getState().lastIndex;
 
     updatedCaseTexts.push(action.payload);
 
     context.patchState({
-      caseTexts: updatedCaseTexts
+      caseTexts: updatedCaseTexts,
+      lastIndex: context.getState().lastIndex + 1
     });
   }
 
@@ -171,14 +177,27 @@ export class CaseContainerState {
   addCaseBackground(context: StateContext<CaseContainerStateModel>, action: AddCaseBackground) {
     let allCaseBackgrounds = context.getState().caseBackgrounds;
 
+    const caseBackground = action.payload;
+
+    caseBackground.bWidth = caseBackground.width;
+    caseBackground.bHeight = caseBackground.height;
+    caseBackground.currentX = 0;
+    caseBackground.currentY = 0;
+    caseBackground.currentZ = 1;
+    caseBackground.lastX = 0;
+    caseBackground.lastY = 0;
+    caseBackground.lastZ = 1;
+    caseBackground.rotate = 0;
+
     allCaseBackgrounds = [];
 
-    action.payload.index = CaseComponentIndexConstants.INDEX_BACKGROUND_MIN;
+    action.payload.index = context.getState().lastIndex;
 
     allCaseBackgrounds.push(action.payload);
 
     context.patchState({
-      caseBackgrounds: allCaseBackgrounds
+      caseBackgrounds: allCaseBackgrounds,
+      lastIndex: action.payload.index + 1
     });
   }
 
@@ -235,42 +254,54 @@ export class CaseContainerState {
 
   @Action(SelectCaseText)
   selectCaseText(context: StateContext<CaseContainerStateModel>, action: SelectCaseText) {
+    action.payload.index = context.getState().lastIndex + 1;
     context.patchState({
       caseComponentSelected: action.payload,
-      indexStepper: CaseComponentIndexConstants.CASE_TEXT_STEPPER_INDEX
+      indexStepper: CaseComponentIndexConstants.CASE_TEXT_STEPPER_INDEX,
+      lastIndex: context.getState().lastIndex + 1
     });
+    this.store.dispatch(new UpdatePinchedComponent(action.payload));
   }
 
   @Action(SelectCaseBackground)
   selectCaseBackground(context: StateContext<CaseContainerStateModel>, action: SelectCaseBackground) {
+    action.payload.index = context.getState().lastIndex + 1;
     context.patchState({
       caseComponentSelected: action.payload,
-      indexStepper: CaseComponentIndexConstants.CASE_BACKGROUND_STEPPER_INDEX
+      indexStepper: CaseComponentIndexConstants.CASE_BACKGROUND_STEPPER_INDEX,
+      lastIndex: context.getState().lastIndex + 1
     });
+    this.store.dispatch(new UpdatePinchedComponent(action.payload));
   }
 
   @Action(SelectCaseSticker)
   SelectCaseSticker(context: StateContext<CaseContainerStateModel>, action: SelectCaseSticker) {
+    action.payload.index = context.getState().lastIndex + 1;
     context.patchState({
       caseComponentSelected: action.payload,
-      indexStepper: CaseComponentIndexConstants.CASE_STICKER_STEPPER_INDEX
+      indexStepper: CaseComponentIndexConstants.CASE_STICKER_STEPPER_INDEX,
+      lastIndex: context.getState().lastIndex + 1
     });
+    this.store.dispatch(new UpdatePinchedComponent(action.payload));
   }
 
   @Action(AddCaseSticker)
   addCaseSticker(context: StateContext<CaseContainerStateModel>, action: AddCaseSticker) {
     const allCaseStickers = context.getState().caseStickers;
 
-    if (allCaseStickers.length === 0) {
-      action.payload.index = CaseComponentIndexConstants.INDEX_STICKER_MIN;
-    } else {
-      action.payload.index = allCaseStickers.length + CaseComponentIndexConstants.INDEX_STICKER_MIN;
-    }
+    // if (allCaseStickers.length === 0) {
+    //   action.payload.index = CaseComponentIndexConstants.INDEX_STICKER_MIN;
+    // } else {
+    //   action.payload.index = allCaseStickers.length + CaseComponentIndexConstants.INDEX_STICKER_MIN;
+    // }
+
+    action.payload.index = context.getState().lastIndex;
 
     allCaseStickers.push(action.payload);
 
     context.patchState({
-      caseStickers: allCaseStickers
+      caseStickers: allCaseStickers,
+      lastIndex: action.payload.index + 1
     });
   }
 
@@ -337,6 +368,17 @@ export class CaseContainerState {
       this.store.dispatch(new UpdateCaseSticker(action.payload as CaseSticker));
     } else if (action.payload.discriminator === 'CASEBACKGROUND') {
       this.store.dispatch(new UpdateCaseBackground(action.payload as CaseBackground));
+    }
+  }
+
+  @Action(UpdatePinchedComponent)
+  updatePinchedComponent(context: StateContext<CaseContainerStateModel>, action: UpdatePinchedComponent) {
+    if (action.payload.discriminator === 'CASESTICKER') {
+      this.store.dispatch(new UpdateCaseSticker(action.payload as CaseSticker));
+    } else if (action.payload.discriminator === 'CASEBACKGROUND') {
+      this.store.dispatch(new UpdateCaseBackground(action.payload as CaseBackground));
+    } else if (action.payload.discriminator === 'CASETEXT') {
+      this.store.dispatch(new UpdateCaseText(action.payload as CaseText));
     }
   }
 }

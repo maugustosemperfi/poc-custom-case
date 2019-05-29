@@ -1,10 +1,9 @@
-<div class="case-text-container">
+<div class="case-text-container" [ngStyle]="{ transform: 'rotate(' + caseText.rotate + 'deg)' }">
   <p
     [ngStyle]="{
       'font-family': caseText.font,
       fontSize: caseText.fontSize + 'px',
       margin: 0,
-      transform: 'rotate(' + caseText.rotate + 'deg)',
       color: 'rgb(' + caseText.color + ')'
     }"
     [hidden]="editingText?.id === caseText.id"

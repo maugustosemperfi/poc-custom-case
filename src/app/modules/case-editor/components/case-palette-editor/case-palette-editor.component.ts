@@ -3,6 +3,7 @@ import { Store } from '@ngxs/store';
 import { UpdateCasePalette } from 'src/app/modules/case-container/store/actions/case-container.actions';
 import { CaseContainerState } from 'src/app/modules/case-container/store/state/case-container.state';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
+import { Options } from 'ng5-slider';
 
 @Component({
   selector: 'app-case-palette-editor',
@@ -11,6 +12,15 @@ import { CasePalette } from 'src/app/shared/models/case-palette.model';
 })
 export class CasePaletteEditorComponent implements OnInit {
   public casePalette: CasePalette;
+
+  public options: Options = {
+    floor: 30,
+    ceil: 100,
+    hideLimitLabels: true,
+    hidePointerLabels: true,
+    showTicks: false,
+    showTicksValues: false,
+  };
 
   public colorPalettes = [
     '160, 234, 222',

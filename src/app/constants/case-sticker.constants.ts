@@ -40,6 +40,9 @@ export class CaseStickerConstants {
     },
     {
       path: 'assets/stickers/' + 15 + '.png'
+    },
+    {
+      path: 'assets/stickers/' + 16 + '.png'
     }
   ] as CaseSticker[];
 }
