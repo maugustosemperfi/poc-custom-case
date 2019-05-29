@@ -27,12 +27,11 @@ import { CaseContainerState } from '../../store/state/case-container.state';
 import { MobilePaletteSheetComponent } from '../mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from '../mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
-import * as html2 from 'html2canvas';
 
 @Component({
   selector: 'app-case-container-mobile',
   templateUrl: './case-container-mobile.component.html',
-  styleUrls: ['./case-container-mobile.component.scss']
+  styleUrls: ['./case-container-mobile.component.scss'],
 })
 export class CaseContainerMobileComponent implements OnInit {
   @Select(CaseContainerState.caseTexts) caseTexts$: Observable<CaseText[]>;
@@ -388,12 +387,7 @@ export class CaseContainerMobileComponent implements OnInit {
     this.store.dispatch(new UpdatePinchedComponent(caseComponent));
   }
 
-  public exportToImage(htmlElement) {
-    const data = html2(htmlElement).then(canvas => {
-      const img = canvas.toDataURL('image/png');
-      console.log(img, htmlElement, canvas);
-      window.open(img);
-      document.body.appendChild(canvas);
-    });
+  public exportToImage(htmlElement: HTMLElement) {
+    CaseUtilsFunctions.exportCase(htmlElement);
   }
 }
