@@ -25,6 +25,7 @@ export class CaseUtilsFunctions {
       const fileName = 'custom_case.png';
 
       downloadLink.href = img;
+      console.log(img);
       downloadLink.download = fileName;
       downloadLink.click();
       htmlElement.style.transform = `scale(1)`;

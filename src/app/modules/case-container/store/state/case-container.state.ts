@@ -35,6 +35,7 @@ export interface CaseContainerStateModel {
   caseComponentSelected: CaseComponent;
   indexStepper: number;
   editedText: CaseText;
+  lastIndex: number;
 }
 
 const emptyState: CaseContainerStateModel = {
@@ -47,7 +48,8 @@ const emptyState: CaseContainerStateModel = {
   caseStickers: [],
   caseComponentSelected: null,
   indexStepper: null,
-  editedText: null
+  editedText: null,
+  lastIndex: CaseComponentIndexConstants.INDEX_STICKER_MIN
 };
 
 @State<CaseContainerStateModel>({
@@ -101,16 +103,19 @@ export class CaseContainerState {
   AddCaseText(context: StateContext<CaseContainerStateModel>, action: AddCaseText) {
     const updatedCaseTexts = context.getState().caseTexts;
 
-    if (updatedCaseTexts.length === 0) {
-      action.payload.index = CaseComponentIndexConstants.INDEX_TEXT_MIN;
-    } else {
-      action.payload.index = updatedCaseTexts.length + CaseComponentIndexConstants.INDEX_TEXT_MIN;
-    }
+    // if (updatedCaseTexts.length === 0) {
+    //   action.payload.index = CaseComponentIndexConstants.INDEX_TEXT_MIN;
+    // } else {
+    //   action.payload.index = updatedCaseTexts.length + CaseComponentIndexConstants.INDEX_TEXT_MIN;
+    // }
+
+    action.payload.index = context.getState().lastIndex;
 
     updatedCaseTexts.push(action.payload);
 
     context.patchState({
-      caseTexts: updatedCaseTexts
+      caseTexts: updatedCaseTexts,
+      lastIndex: context.getState().lastIndex + 1
     });
   }
 
@@ -186,12 +191,13 @@ export class CaseContainerState {
 
     allCaseBackgrounds = [];
 
-    action.payload.index = CaseComponentIndexConstants.INDEX_BACKGROUND_MIN;
+    action.payload.index = context.getState().lastIndex;
 
     allCaseBackgrounds.push(action.payload);
 
     context.patchState({
-      caseBackgrounds: allCaseBackgrounds
+      caseBackgrounds: allCaseBackgrounds,
+      lastIndex: action.payload.index + 1
     });
   }
 
@@ -248,42 +254,54 @@ export class CaseContainerState {
 
   @Action(SelectCaseText)
   selectCaseText(context: StateContext<CaseContainerStateModel>, action: SelectCaseText) {
+    action.payload.index = context.getState().lastIndex + 1;
     context.patchState({
       caseComponentSelected: action.payload,
-      indexStepper: CaseComponentIndexConstants.CASE_TEXT_STEPPER_INDEX
+      indexStepper: CaseComponentIndexConstants.CASE_TEXT_STEPPER_INDEX,
+      lastIndex: context.getState().lastIndex + 1
     });
+    this.store.dispatch(new UpdatePinchedComponent(action.payload));
   }
 
   @Action(SelectCaseBackground)
   selectCaseBackground(context: StateContext<CaseContainerStateModel>, action: SelectCaseBackground) {
+    action.payload.index = context.getState().lastIndex + 1;
     context.patchState({
       caseComponentSelected: action.payload,
-      indexStepper: CaseComponentIndexConstants.CASE_BACKGROUND_STEPPER_INDEX
+      indexStepper: CaseComponentIndexConstants.CASE_BACKGROUND_STEPPER_INDEX,
+      lastIndex: context.getState().lastIndex + 1
     });
+    this.store.dispatch(new UpdatePinchedComponent(action.payload));
   }
 
   @Action(SelectCaseSticker)
   SelectCaseSticker(context: StateContext<CaseContainerStateModel>, action: SelectCaseSticker) {
+    action.payload.index = context.getState().lastIndex + 1;
     context.patchState({
       caseComponentSelected: action.payload,
-      indexStepper: CaseComponentIndexConstants.CASE_STICKER_STEPPER_INDEX
+      indexStepper: CaseComponentIndexConstants.CASE_STICKER_STEPPER_INDEX,
+      lastIndex: context.getState().lastIndex + 1
     });
+    this.store.dispatch(new UpdatePinchedComponent(action.payload));
   }
 
   @Action(AddCaseSticker)
   addCaseSticker(context: StateContext<CaseContainerStateModel>, action: AddCaseSticker) {
     const allCaseStickers = context.getState().caseStickers;
 
-    if (allCaseStickers.length === 0) {
-      action.payload.index = CaseComponentIndexConstants.INDEX_STICKER_MIN;
-    } else {
-      action.payload.index = allCaseStickers.length + CaseComponentIndexConstants.INDEX_STICKER_MIN;
-    }
+    // if (allCaseStickers.length === 0) {
+    //   action.payload.index = CaseComponentIndexConstants.INDEX_STICKER_MIN;
+    // } else {
+    //   action.payload.index = allCaseStickers.length + CaseComponentIndexConstants.INDEX_STICKER_MIN;
+    // }
+
+    action.payload.index = context.getState().lastIndex;
 
     allCaseStickers.push(action.payload);
 
     context.patchState({
-      caseStickers: allCaseStickers
+      caseStickers: allCaseStickers,
+      lastIndex: action.payload.index + 1
     });
   }
 

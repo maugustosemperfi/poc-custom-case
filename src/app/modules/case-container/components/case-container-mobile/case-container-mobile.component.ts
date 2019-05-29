@@ -117,13 +117,16 @@ export class CaseContainerMobileComponent implements OnInit {
 
   public updateCaseText(caseText: CaseText) {
     this.store.dispatch(new EditText(caseText));
+    this.selectCaseText(caseText);
   }
 
-  public dragElement(htmlElement: HTMLElement) {
+  public dragElement(htmlElement: HTMLElement, caseComponent: CaseComponent) {
     if (this.draggableComponentRef === null) {
       this.draggableComponentRef = this.dragDrop.createDrag(htmlElement, this.dragRefConfig);
       this.dragging = true;
     }
+
+    this.updatePinchedComponent(caseComponent);
   }
 
   public dragEnd() {
@@ -255,7 +258,6 @@ export class CaseContainerMobileComponent implements OnInit {
   public fontSizeChanged(eventInput, editingText: CaseText) {
     const fontSize = eventInput.value;
     editingText.fontSize = fontSize;
-    console.log(eventInput, editingText);
     this.store.dispatch(new UpdateCaseText(fontSize));
   }
 
