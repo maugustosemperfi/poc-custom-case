@@ -9,11 +9,28 @@ import { CaseContainerComponent } from './case-container.component';
 import { MobilePaletteSheetComponent } from './components/mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from './components/mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
 import { CaseContainerMobileComponent } from './components/case-container-mobile/case-container-mobile.component';
+import { GestureConfig } from '@angular/material';
+import * as Hammer from 'hammerjs';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+
+export class CustomHammerConfig extends GestureConfig {
+  overrides = {
+    pan: { direction: Hammer.DIRECTION_ALL },
+    pinch: { enable: true },
+    rotate: { enable: true }
+  } as any;
+}
 
 @NgModule({
   declarations: [CaseContainerComponent, MobileSticersBottomSheetComponent, MobilePaletteSheetComponent, CaseContainerMobileComponent],
   imports: [CommonModule, FlexLayoutModule, MaterialModule, CaseTextModule, CaseEditorModule, DragDropModule],
   exports: [CaseContainerComponent],
-  entryComponents: [MobileSticersBottomSheetComponent, MobilePaletteSheetComponent]
+  entryComponents: [MobileSticersBottomSheetComponent, MobilePaletteSheetComponent],
+  providers: [
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: CustomHammerConfig
+    }
+  ]
 })
 export class CaseContainerModule {}

@@ -36,7 +36,7 @@
             <mat-icon>tag_faces</mat-icon>
           </button>
           <button mat-icon-button (click)="exportToImage(componentsContainer)">
-            <mat-icon>arrow_forward</mat-icon>
+            <mat-icon>archive</mat-icon>
           </button>
           <input hidden type="file" accept="image/*" #fileInput (change)="selectedBackgroundFile(fileInput.files)" />
         </div>
@@ -62,7 +62,7 @@
         ></div>
       </div>
     </div>
-    <div [hidden]="editingText !== null || !dragging">
+    <div [hidden]="true">
       <div class="text-actions-bottom actions-container" fxLayout="row" fxLayoutAlign="center" [hidden]="!dragging">
         <button mat-icon-button>
           <mat-icon>delete_outline</mat-icon>
