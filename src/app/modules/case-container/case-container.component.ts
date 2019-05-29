@@ -12,6 +12,7 @@ import { CaseTextFont } from 'src/app/shared/models/csae-text-font.model';
 import { CasePalette } from '../../shared/models/case-palette.model';
 import { UpdateCaseColor, SelectCaseText, SelectCaseBackground, SelectCaseSticker } from './store/actions/case-container.actions';
 import { CaseContainerState } from './store/state/case-container.state';
+import { CaseUtilsFunctions } from 'src/app/utils/functions/case-utils.functions';
 
 @Component({
   selector: 'app-case-container',
@@ -55,6 +56,10 @@ export class CaseContainerComponent implements OnInit {
 
   public selectCaseSticker(caseSticker: CaseSticker) {
     this.store.dispatch(new SelectCaseSticker(caseSticker));
+  }
+
+  public downloadCase(htmlElement: HTMLElement) {
+    CaseUtilsFunctions.exportCase(htmlElement, false);
   }
 
   private setInitialCaseColor() {

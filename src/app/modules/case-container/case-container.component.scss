@@ -5,12 +5,12 @@
 
   .case-container {
     min-height: 736px;
-    max-height: 736px;
 
     .phone-container {
-      min-height: 736px;
+      height: 736px;
       min-width: 350px;
-      max-width: 350px;
+      width: 350px;
+      // max-width: 350px;
       background: #fff;
       position: relative;
       overflow: hidden;
@@ -30,4 +30,13 @@
 
 .full-height {
   height: 100%;
+}
+
+.download-container {
+  position: relative;
+
+  .download-button {
+    position: absolute;
+    right: 0;
+  }
 }

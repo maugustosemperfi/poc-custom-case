@@ -388,6 +388,6 @@ export class CaseContainerMobileComponent implements OnInit {
   }
 
   public exportToImage(htmlElement: HTMLElement) {
-    CaseUtilsFunctions.exportCase(htmlElement);
+    CaseUtilsFunctions.exportCase(htmlElement, true);
   }
 }

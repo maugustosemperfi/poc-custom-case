@@ -10,12 +10,19 @@ export class CaseUtilsFunctions {
     );
   }
 
-  public static exportCase(htmlElement: HTMLElement) {
-    htmlElement.style.transform = `scale(${875 / htmlElement.offsetWidth}, ${1840 / htmlElement.offsetHeight})`;
-    const data = html2(htmlElement, { windowWidth: 875, width: 875, windowHeight: 1840, height: 1840, scale: 1 }).then(canvas => {
+  public static exportCase(htmlElement: HTMLElement, isMobile: boolean) {
+    let options;
+
+    if (isMobile) {
+      htmlElement.style.transform = `scale(${875 / htmlElement.offsetWidth}, ${1840 / htmlElement.offsetHeight})`;
+      options = { windowWidth: 875, width: 875, windowHeight: 1840, height: 1840 };
+    } else {
+      options = { windowWidth: 875, windowHeight: 1840 };
+    }
+    html2(htmlElement, options).then(canvas => {
       const img = canvas.toDataURL('image/png');
       const downloadLink = document.createElement('a');
-      const fileName = 'vct_illustration.png';
+      const fileName = 'custom_case.png';
 
       downloadLink.href = img;
       downloadLink.download = fileName;
