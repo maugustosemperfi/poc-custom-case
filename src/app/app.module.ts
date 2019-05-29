@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { CaseContainerModule } from './modules/case-container/case-container.module';
 import { GestureConfig } from '@angular/material';
+import { Ng5SliderModule } from 'ng5-slider';
 
 export class CustomHammerConfig extends HammerGestureConfig {
   overrides = {

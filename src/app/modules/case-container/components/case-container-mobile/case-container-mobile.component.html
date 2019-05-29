@@ -3,7 +3,7 @@
     <div class="text-done-container" [hidden]="editingText === null" (click)="doneEditingText()">
       <div fxLayout="column" fxLayoutAlign="center" style="height: 100%; z-index: 30">
         <div fxLayout="column" fxLayoutAlign="center" class="text-slider-font">
-          <mat-slider
+          <!-- <mat-slider
             fxFlex="100"
             [min]="12"
             [max]="30"
@@ -13,7 +13,8 @@
             (input)="fontSizeChanged($event, editingText)"
             [vertical]="true"
           >
-          </mat-slider>
+          </mat-slider> -->
+          <ng5-slider [options]="options" [value]="editingText?.fontSize"  (userChange)="fontSizeChanged($event, editingText)" ></ng5-slider>
         </div>
       </div>
     </div>

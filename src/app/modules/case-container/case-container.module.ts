@@ -12,6 +12,7 @@ import { CaseContainerMobileComponent } from './components/case-container-mobile
 import { GestureConfig } from '@angular/material';
 import * as Hammer from 'hammerjs';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { Ng5SliderModule } from 'ng5-slider';
 
 export class CustomHammerConfig extends GestureConfig {
   overrides = {
@@ -23,7 +24,7 @@ export class CustomHammerConfig extends GestureConfig {
 
 @NgModule({
   declarations: [CaseContainerComponent, MobileSticersBottomSheetComponent, MobilePaletteSheetComponent, CaseContainerMobileComponent],
-  imports: [CommonModule, FlexLayoutModule, MaterialModule, CaseTextModule, CaseEditorModule, DragDropModule],
+  imports: [CommonModule, FlexLayoutModule, MaterialModule, CaseTextModule, CaseEditorModule, DragDropModule, Ng5SliderModule],
   exports: [CaseContainerComponent],
   entryComponents: [MobileSticersBottomSheetComponent, MobilePaletteSheetComponent],
   providers: [

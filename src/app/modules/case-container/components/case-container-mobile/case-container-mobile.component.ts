@@ -27,6 +27,7 @@ import { CaseContainerState } from '../../store/state/case-container.state';
 import { MobilePaletteSheetComponent } from '../mobile-palette-sheet/mobile-palette-sheet.component';
 import { MobileSticersBottomSheetComponent } from '../mobile-sticers-bottom-sheet/mobile-sticers-bottom-sheet.component';
 import { CasePalette } from 'src/app/shared/models/case-palette.model';
+import { Options } from 'ng5-slider';
 
 @Component({
   selector: 'app-case-container-mobile',
@@ -48,6 +49,16 @@ export class CaseContainerMobileComponent implements OnInit {
   public dragging = false;
   public disableDragging = false;
   public test;
+
+  public options: Options = {
+    vertical: true,
+    floor: 12,
+    ceil: 30,
+    hideLimitLabels: true,
+    hidePointerLabels: true,
+    showTicks: false,
+    showTicksValues: false
+  };
 
   private draggableComponentRef: DragRef = null;
   private caseTextFonts: CaseTextFont[];
@@ -244,6 +255,7 @@ export class CaseContainerMobileComponent implements OnInit {
   public fontSizeChanged(eventInput, editingText: CaseText) {
     const fontSize = eventInput.value;
     editingText.fontSize = fontSize;
+    console.log(eventInput, editingText);
     this.store.dispatch(new UpdateCaseText(fontSize));
   }
 

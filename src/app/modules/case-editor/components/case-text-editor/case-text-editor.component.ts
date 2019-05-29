@@ -92,7 +92,6 @@ export class CaseTextEditorComponent implements OnInit {
     const textFont = eventInput.value as CaseTextFont;
     caseText.font = textFont.font;
     caseText.fontLabel = textFont.labelFont;
-    console.log(textFont, caseText);
 
     this.dispatchUpdateAction(caseText);
   }
